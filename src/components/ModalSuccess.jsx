@@ -12,7 +12,7 @@ function ModalSuccess({
       icon={<BsCheckLg />}
       isShow={isShow}
       onCloseModal={onClose}
-      iconColorInHex='44C4A1'
+      iconColorInHex="44C4A1"
     />
   );
 }

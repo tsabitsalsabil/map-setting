@@ -9,7 +9,7 @@ function ModalFailed({ isShow, messageDescription, buttonDescription }) {
       icon={<IoCloseOutline />}
       isShow={isShow}
       messageDescription={messageDescription}
-      iconColorInHex='E24C4B'
+      iconColorInHex="E24C4B"
     />
   );
 }
