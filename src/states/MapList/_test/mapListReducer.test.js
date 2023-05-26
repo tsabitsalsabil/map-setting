@@ -1,4 +1,4 @@
-import mapListReducer from '../MapListReducer';
+import mapListReducer from '../mapListReducer';
 import ACTION_TYPE from '../mapListActionType';
 
 /**
