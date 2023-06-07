@@ -3,8 +3,15 @@ import React, { useMemo, useState } from 'react';
 import { useTable, usePagination, useSortBy } from 'react-table';
 import { FaSortAlphaDown } from 'react-icons/fa';
 import { MdOutlineDeleteForever, MdOutlineEdit } from 'react-icons/md';
-import { useDispatch } from 'react-redux';
-import { asyncDeleteMapListActionCreator, editMapListActionCreator } from '../states';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  asyncDeleteMapListActionCreator,
+  editMapListActionCreator,
+  changeDeleteModalShowActionCreator,
+  changeEditModalShowActionCreator,
+  modalEditSuccessToggleActionCreator,
+  modalDeleteSuccessToggleActionCreator,
+} from '../states';
 import PaginationButton from './BaseMapSetting/PaginationButton';
 import ModalDelete from './ModalDelete';
 import EditModal from './EditModal';
@@ -15,34 +22,43 @@ function TableWithPagination({
 }) {
   const [mapId, setMapId] = useState(0);
   const dispatch = useDispatch();
-  const [isShowModalDelete, setIsShowModalDelete] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
-  const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
-  const [isUpdateSuccess, setIsUpdateSuccess] = useState(false);
+  // use this when you don't use redux
+  // const [isShowModalDelete, setIsShowModalDelete] = useState(false);
+  // const [isEdit, setIsEdit] = useState(false);
+  // const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
+  // const [isUpdateSuccess, setIsUpdateSuccess] = useState(false);
+
+  // use this when use redux
+  const {
+    modals: {
+      isDelete: isShowModalDelete, isEdit, isDeleteSuccess, isUpdateSuccess,
+    },
+  } = useSelector((states) => states);
+
   const onClickDeleteButton = (MapId) => {
-    setIsShowModalDelete(true);
+    dispatch(changeDeleteModalShowActionCreator(true));
     setMapId(MapId);
   };
 
   const onCancelDeleteMapHandler = () => {
-    setIsShowModalDelete(false);
+    dispatch(changeDeleteModalShowActionCreator(false));
   };
 
   const onDeleteMapHandler = (id) => {
     dispatch(asyncDeleteMapListActionCreator(id));
     onCancelDeleteMapHandler();
-    setIsDeleteSuccess(true);
+    dispatch(changeDeleteModalShowActionCreator(false));
   };
 
   const setOnButtonClickEditMapHandler = (editValue) => {
-    setIsEdit(editValue);
+    dispatch(changeEditModalShowActionCreator(editValue));
   };
 
   const onUpdate = (e, { id, newData }) => {
     e.preventDefault();
     dispatch(editMapListActionCreator({ id, newData }));
     setOnButtonClickEditMapHandler(false);
-    setIsUpdateSuccess(true);
+    dispatch(modalEditSuccessToggleActionCreator(true));
   };
 
   const onClickEditButton = (id) => {
@@ -51,8 +67,8 @@ function TableWithPagination({
   };
 
   const onClose = () => {
-    setIsDeleteSuccess(false);
-    setIsUpdateSuccess(false);
+    dispatch(modalDeleteSuccessToggleActionCreator(false));
+    dispatch(changeEditModalShowActionCreator(false));
   };
 
   const columns = useMemo(() => [

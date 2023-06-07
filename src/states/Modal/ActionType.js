@@ -1,9 +1,9 @@
 const ACTION_TYPE = {
-  changeToggleAddModal: 'CHANGE/TOGGLE_MODAL',
-  changeToggleEditModal: 'CHANGE/TOGGLE_EDIT',
+  changeToggleAddModalSuccess: 'CHANGE/TOGGLE_ADD',
+  changeToggleEditModalSuccess: 'CHANGE/TOGGLE_EDIT',
+  changeToggleDeleteModalSuccess: 'CHANGE/TOGGLE_DELETE',
   showDeleteModal: 'DELETE/SHOW_MODAL',
-  deleteSuccess: 'HIDE/DELETE_MODAL',
-  editSuccess: 'SHOW/SUCCESS_EDIT_MODAL',
+  showEditModal: 'EDIT/SHOW_MODAL',
 };
 
 export default ACTION_TYPE;

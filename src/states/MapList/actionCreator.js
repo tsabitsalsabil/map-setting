@@ -1,5 +1,9 @@
 import api from '../../api/api';
 import ACTION_TYPE from './mapListActionType';
+import {
+  modalAddSuccessToggleActionCreator,
+  modalDeleteSuccessToggleActionCreator,
+} from '../Modal/modalActionCreator';
 
 export const deleteMapListActionCreator = (id) => ({
   type: ACTION_TYPE.deleteMapListType,
@@ -49,6 +53,7 @@ export const asyncDeleteMapListActionCreator = (id) => async (dispatch) => {
   const test = await api.deleteMapListData(id);
   console.log(test);
   dispatch(deleteMapListActionCreator(id));
+  dispatch(modalDeleteSuccessToggleActionCreator(true));
 };
 
 export const asyncAddMapListActionCreator = (
@@ -57,7 +62,8 @@ export const asyncAddMapListActionCreator = (
   },
 ) => async (dispatch) => {
   const id = await api.addMapListData({
-    map, uploadedFile: uploadedFile[0], fileType,
+    map, uploadedFile, fileType,
   });
   dispatch(addMapListActionCreator({ id, map }));
+  dispatch(modalAddSuccessToggleActionCreator(true));
 };

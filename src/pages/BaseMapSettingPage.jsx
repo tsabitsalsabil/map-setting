@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SideBarMapSetting from '../components/BaseMapSetting/SidebarMapSetting';
 import BaseMapContent from '../components/BaseMapSetting/BaseMapContent';
 import MapListContent from '../components/BaseMapSetting/MapListContent';
 import useInput from '../hooks/useInput';
-import { searchMapListActionCreator, addMapListActionCreator } from '../states';
+import { searchMapListActionCreator, modalAddSuccessToggleActionCreator } from '../states';
 import AddMapContent from '../components/BaseMapSetting/AddMapContent';
 import LocalSource from '../components/InputLocal/LocalSource';
 import OnlineSource from '../components/InputWeb/OnlineSource';
@@ -27,7 +27,7 @@ const selectTypeOptions = [
   { value: '.geojson', label: 'GeoJSON(.geojson)' },
   { value: '.kml', label: 'KML (.kml)' },
   { value: '.kmz', label: 'KMZ(.kmz)' },
-  { value: '.geotiff, .tif , .tiff', label: 'GeoTiff(.geotiff, .tif, .tiff)' },
+  { value: 'GeoTIFF', label: 'GeoTiff(.geotiff, .tif, .tiff)' },
   { value: '.dted', label: 'DTED(.dted)' },
   { value: '.nitf', label: 'Nitf(.nitf)' },
   { value: '.shp', label: 'Shapefile (.shp)' },
@@ -44,7 +44,7 @@ function BaseMapSettingPage() {
   const [selectTypeValue, onChangeSelectTypeValue, setSelectTypeValue] = useInput();
   const [uploadedFile, setUploadedFile] = useState();
   const [fileSource, onChangeFileSourceHandler, setFileSource] = useInput();
-  const [isAddSuccess, setIsAddSuccess] = useState(false);
+  const { modals: { isAddSuccess } } = useSelector((states) => states);
 
   const onChangeUploadedFileHandler = ({ target }) => {
     setUploadedFile(target.files);
@@ -55,7 +55,7 @@ function BaseMapSettingPage() {
     dispatch(searchMapListActionCreator(target.value));
   };
 
-  const cleanAllDataSource = () => {
+  const clearAllDataInput = () => {
     setFileName('');
     setSelectTypeValue('');
     setUploadedFile('');
@@ -63,20 +63,19 @@ function BaseMapSettingPage() {
   };
 
   const onAddHandler = () => {
+    // dummy data
     // dispatch(addMapListActionCreator({
     //   map: fileName,
     //   source: fileSource || (`${fileName}.${getFileExtension(uploadedFile[0].name)}`),
     //   no: +new Date(),
     // }));
     dispatch(asyncAddMapListActionCreator({
-      map: fileName, uploadedFile, fileType: 'Shapefile', source: fileSource,
+      map: fileName, uploadedFile, fileType: selectTypeValue, source: fileSource,
     }));
-    console.log(uploadedFile);
-    cleanAllDataSource();
-    setIsAddSuccess(true);
+    clearAllDataInput();
   };
   const onClose = () => {
-    setIsAddSuccess(false);
+    dispatch(modalAddSuccessToggleActionCreator(false));
     navigate('/map-setting/');
   };
 

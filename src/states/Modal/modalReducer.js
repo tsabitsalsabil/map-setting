@@ -2,34 +2,38 @@ import ACTION_TYPE from './ActionType';
 
 const initialState = {
   isEdit: false,
-  isShowModalDelete: false,
+  isDelete: false,
   isDeleteSuccess: false,
   isUpdateSuccess: false,
+  isAddSuccess: false,
 };
 
 const modalReducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case ACTION_TYPE.changeToggleEditModal:
+    case ACTION_TYPE.changeToggleAddModalSuccess:
       return {
         ...state,
-        isEdit: action.payload.isShow,
+        isAddSuccess: action.payload.isShow,
+      };
+    case ACTION_TYPE.changeToggleDeleteModalSuccess:
+      return {
+        ...state,
+        isDeleteSuccess: action.payload.isShow,
+      };
+    case ACTION_TYPE.changeToggleEditModalSuccess:
+      return {
+        ...state,
+        isEditSuccess: action.payload.isShow,
       };
     case ACTION_TYPE.showDeleteModal:
       return {
         ...state,
-        isShowModalDelete: action.payload.isShow,
+        isDelete: action.payload.isShow,
       };
-    case ACTION_TYPE.deleteSuccess:
+    case ACTION_TYPE.showEditModal:
       return {
         ...state,
-        isDeleteSuccess: action.payload.isShow,
-        isShowModalDelete: false,
-      };
-    case ACTION_TYPE.editSuccess:
-      return {
-        ...state,
-        isUpdateSuccess: true,
-        isEdit: false,
+        isEdit: action.payload.isShow,
       };
     default:
       return state;

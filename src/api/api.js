@@ -1,4 +1,3 @@
-import axios from 'axios';
 import ClientError from '../utils/ClientError';
 import InvariantError from '../utils/InvariantError';
 import NotFoundError from '../utils/NotFoundError';
@@ -40,8 +39,8 @@ const api = {
 
   async addMapListData({ map, uploadedFile, fileType }) {
     const formData = new FormData();
+    formData.append('file', uploadedFile[0]);
     formData.append('name', map);
-    formData.append('file', uploadedFile);
     formData.append('title', map);
     formData.append('type', fileType);
 
@@ -49,7 +48,7 @@ const api = {
       method: 'POST',
       body: formData,
     });
-    console.log(response);
+    console.log({ response });
     return response.data.id;
   },
 };
