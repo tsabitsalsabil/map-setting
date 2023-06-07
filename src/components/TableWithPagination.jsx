@@ -4,7 +4,7 @@ import { useTable, usePagination, useSortBy } from 'react-table';
 import { FaSortAlphaDown } from 'react-icons/fa';
 import { MdOutlineDeleteForever, MdOutlineEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
-import { deleteMapListActionCreator, editMapListActionCreator } from '../states';
+import { asyncDeleteMapListActionCreator, editMapListActionCreator } from '../states';
 import PaginationButton from './BaseMapSetting/PaginationButton';
 import ModalDelete from './ModalDelete';
 import EditModal from './EditModal';
@@ -29,7 +29,7 @@ function TableWithPagination({
   };
 
   const onDeleteMapHandler = (id) => {
-    dispatch(deleteMapListActionCreator(id));
+    dispatch(asyncDeleteMapListActionCreator(id));
     onCancelDeleteMapHandler();
     setIsDeleteSuccess(true);
   };
@@ -65,16 +65,16 @@ function TableWithPagination({
     ...tableColumns,
     {
       Header: 'Action',
-      accessor: 'no',
+      accessor: 'id',
       Cell: ({ row }) => (
         <div className="flex justify-center items-center text-xl gap-4">
-          <button type="button" onClick={() => onClickEditButton(row.original.no)}>
+          <button type="button" onClick={() => onClickEditButton(row.original.id)}>
             <MdOutlineEdit />
           </button>
           <button
             type="button"
             onClick={() => {
-              onClickDeleteButton(row.original.no);
+              onClickDeleteButton(row.original.id);
             }}
           >
             <MdOutlineDeleteForever />

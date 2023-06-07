@@ -3,6 +3,7 @@ const ACTION_TYPE = {
   deleteMapListType: 'DELETE/MAPLIST',
   searchMapListType: 'SEARCH/MAPLIST',
   addMapListType: 'ADD/MAPLIST',
+  getMapListType: 'GET/MAPLIST',
 };
 
 export default ACTION_TYPE;

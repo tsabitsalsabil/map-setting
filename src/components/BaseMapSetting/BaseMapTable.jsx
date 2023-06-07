@@ -1,19 +1,25 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import TableWithPagination from '../TableWithPagination';
+import { asyncGetMaplistActionCreator } from '../../states';
 
 function BaseMapTable() {
   const { listMap } = useSelector((states) => states);
+  const dispatch = useDispatch();
   const tableColumns = [
     {
       Header: 'Map',
-      accessor: 'map',
+      accessor: 'title',
     },
     {
       Header: 'Source',
-      accessor: 'source',
+      accessor: 'url',
     },
   ];
+
+  useEffect(() => {
+    dispatch(asyncGetMaplistActionCreator());
+  }, []);
 
   return (
     <section>

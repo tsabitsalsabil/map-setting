@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import {
   BrowserRouter, Routes, Route,
 } from 'react-router-dom';
@@ -10,6 +10,7 @@ import store from './states/store';
 import './index.scss';
 
 function App() {
+  console.log(process.env.BE_PORT);
   return (
     <React.StrictMode>
       <BrowserRouter>
@@ -22,4 +23,5 @@ function App() {
     </React.StrictMode>
   );
 }
-ReactDOM.render(<App />, document.getElementById('app'));
+const root = createRoot(document.getElementById('app'));
+root.render(<App />);

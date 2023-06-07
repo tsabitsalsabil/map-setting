@@ -1,3 +1,4 @@
+import api from '../../api/api';
 import ACTION_TYPE from './mapListActionType';
 
 export const deleteMapListActionCreator = (id) => ({
@@ -22,11 +23,41 @@ export const searchMapListActionCreator = (keyword) => ({
   },
 });
 
-export const addMapListActionCreator = ({ no, map, source }) => ({
+export const addMapListActionCreator = ({ id, map }) => ({
   type: ACTION_TYPE.addMapListType,
   payload: {
-    no,
+    id,
     map,
-    fileSource: source,
   },
 });
+
+export const fetchMapActionCreator = (data) => (
+  {
+    type: ACTION_TYPE.getMapListType,
+    payload: {
+      mapList: data,
+    },
+  }
+);
+
+export const asyncGetMaplistActionCreator = () => async (dispatch) => {
+  const data = await api.fetchMapListData();
+  dispatch(fetchMapActionCreator(data));
+};
+
+export const asyncDeleteMapListActionCreator = (id) => async (dispatch) => {
+  const test = await api.deleteMapListData(id);
+  console.log(test);
+  dispatch(deleteMapListActionCreator(id));
+};
+
+export const asyncAddMapListActionCreator = (
+  {
+    map, uploadedFile, fileType,
+  },
+) => async (dispatch) => {
+  const id = await api.addMapListData({
+    map, uploadedFile: uploadedFile[0], fileType,
+  });
+  dispatch(addMapListActionCreator({ id, map }));
+};

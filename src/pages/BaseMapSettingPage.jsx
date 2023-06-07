@@ -11,6 +11,7 @@ import LocalSource from '../components/InputLocal/LocalSource';
 import OnlineSource from '../components/InputWeb/OnlineSource';
 import { getFileExtension } from '../utils/getMapExtension';
 import ModalSuccess from '../components/ModalSuccess';
+import { asyncAddMapListActionCreator } from '../states/MapList/actionCreator';
 
 const subNavOptions = [
   {
@@ -62,11 +63,15 @@ function BaseMapSettingPage() {
   };
 
   const onAddHandler = () => {
-    dispatch(addMapListActionCreator({
-      map: fileName,
-      source: fileSource || (`${fileName}.${getFileExtension(uploadedFile[0].name)}`),
-      no: +new Date(),
+    // dispatch(addMapListActionCreator({
+    //   map: fileName,
+    //   source: fileSource || (`${fileName}.${getFileExtension(uploadedFile[0].name)}`),
+    //   no: +new Date(),
+    // }));
+    dispatch(asyncAddMapListActionCreator({
+      map: fileName, uploadedFile, fileType: 'Shapefile', source: fileSource,
     }));
+    console.log(uploadedFile);
     cleanAllDataSource();
     setIsAddSuccess(true);
   };

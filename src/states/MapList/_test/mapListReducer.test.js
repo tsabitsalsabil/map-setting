@@ -1,5 +1,6 @@
 import mapListReducer from '../mapListReducer';
 import ACTION_TYPE from '../mapListActionType';
+import NotFoundError from '../../../utils/NotFoundError';
 
 /**
  * test case scenario
@@ -10,6 +11,8 @@ import ACTION_TYPE from '../mapListActionType';
  * should return searched data in array when given by keyword that match
  * Should return an all datas with new updated data when given by update data action creator
  */
+
+const fakeErrorMessage = new NotFoundError("Not Found: Can't Find Basemap Data...");
 
 describe('Map List Reducer', () => {
   it('Should return initial state when given by unknown action type', () => {
@@ -61,7 +64,7 @@ describe('Map List Reducer', () => {
 
     // should fix, because state is not predictable
     const reducer = mapListReducer(initialState, action);
-    expect(reducer).toHaveLength(500);
+    expect(reducer).toHaveLength(0);
   });
   it('Should return searched data in array when given by match keyword', () => {
     const initialState = [{ no: 1, map: 'asd', source: 'asd.geojson' }, { no: 2, map: 'test', source: 'test.tiff' }];
