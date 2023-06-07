@@ -131,7 +131,7 @@ function TableWithPagination({
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())} className="relative">
                   {column.render('Header')}
-                  {column.Header !== 'No' && <FaSortAlphaDown className="absolute right-10 top-1" />}
+                  {(column.Header !== 'No' && column.Header !== 'Action') && <FaSortAlphaDown className="absolute right-10 top-1" />}
                 </th>
               ))}
             </tr>

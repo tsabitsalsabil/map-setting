@@ -48,7 +48,6 @@ const api = {
       method: 'POST',
       body: formData,
     });
-    console.log({ response });
     return response.data.id;
   },
 };
