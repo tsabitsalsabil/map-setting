@@ -18,8 +18,12 @@ const api = {
       if (error instanceof ClientError) {
         alert(error.message);
       }
-      alert(error.message);
-      return false;
+      return {
+        data: {
+          error: true,
+          message: error.message,
+        },
+      };
     }
   },
 

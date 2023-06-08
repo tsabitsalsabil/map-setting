@@ -14,6 +14,7 @@ const requestStatusReducer = (state = initialState, action = {}) => {
         load: true,
       };
     case ACTION_TYPE.fetchDataFailed:
+      console.log({ message: action.payload.message });
       return {
         load: false,
         error: true,

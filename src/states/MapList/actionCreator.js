@@ -48,7 +48,7 @@ export const fetchMapActionCreator = (data) => (
 export const asyncGetMaplistActionCreator = () => async (dispatch) => {
   dispatch(fetchDataActionCreator());
   const data = await api.fetchMapListData();
-  if (!data) {
+  if (data.error) {
     dispatch(fetchDataFailedActionCreator(data.message));
   }
   dispatch(fetchMapActionCreator(data));
