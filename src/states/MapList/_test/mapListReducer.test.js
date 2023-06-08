@@ -27,7 +27,7 @@ describe('Map List Reducer', () => {
     expect(reducer).toHaveLength(initialState.length);
   });
   it('Should return all not deleted data in array when given by delete action creator', () => {
-    const initialState = [{ no: 1, map: 'asd', source: 'test.jpg' }, { no: 2, map: 'test', source: 'asd.tiff' }];
+    const initialState = [{ id: 1, map: 'asd', source: 'test.jpg' }, { id: 2, map: 'test', source: 'asd.tiff' }];
     const action = {
       type: ACTION_TYPE.deleteMapListType,
       payload: {
@@ -37,7 +37,7 @@ describe('Map List Reducer', () => {
 
     const reducer = mapListReducer(initialState, action);
     expect(reducer).toHaveLength(1);
-    expect(reducer).toEqual((initialState.filter((mapItem) => mapItem.no !== action.payload.id)));
+    expect(reducer).toEqual((initialState.filter((mapItem) => mapItem.id !== action.payload.id)));
     expect(reducer).not.toBeNull();
   });
   it('Should return [] when map list item doesnt contain keyword', () => {
@@ -84,7 +84,6 @@ describe('Map List Reducer', () => {
     expect(reducer).toEqual(searchedData);
     expect(searchedData).toHaveProperty('map');
   });
-
   it('Should return all data with new data when given by update action creator', () => {
     const initialState = [{ no: 1, map: 'asd', source: 'asd.geojson' }, { no: 2, map: 'test', source: 'test.tiff' }];
     const newData = {
