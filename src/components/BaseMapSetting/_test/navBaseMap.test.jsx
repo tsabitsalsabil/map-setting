@@ -9,6 +9,5 @@ describe('<NavBaseMap /> Component', () => {
     render(<BrowserRouter><NavBaseMap navName="test" href="/map-setting" isActive /></BrowserRouter>);
     const navText = screen.getByText('test');
     expect(navText).toBeVisible();
-    console.log(navText);
   });
 });

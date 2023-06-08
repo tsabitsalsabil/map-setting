@@ -4,6 +4,7 @@ import {
   modalAddSuccessToggleActionCreator,
   modalDeleteSuccessToggleActionCreator,
 } from '../Modal/modalActionCreator';
+import { fetchDataActionCreator, fetchDataFailedActionCreator } from '../requestsStatus/requestStatusActionCreator';
 
 export const deleteMapListActionCreator = (id) => ({
   type: ACTION_TYPE.deleteMapListType,
@@ -45,7 +46,11 @@ export const fetchMapActionCreator = (data) => (
 );
 
 export const asyncGetMaplistActionCreator = () => async (dispatch) => {
+  dispatch(fetchDataActionCreator());
   const data = await api.fetchMapListData();
+  if (!data) {
+    dispatch(fetchDataFailedActionCreator(data.message));
+  }
   dispatch(fetchMapActionCreator(data));
 };
 

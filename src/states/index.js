@@ -18,3 +18,8 @@ export {
   changeDeleteModalShowActionCreator,
   changeEditModalShowActionCreator,
 } from './Modal/modalActionCreator';
+
+export {
+  fetchDataActionCreator,
+  fetchDataFailedActionCreator,
+} from './requestsStatus/requestStatusActionCreator';
