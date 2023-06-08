@@ -9,7 +9,7 @@
     "start:live": "webpack serve --open --mode development --live-reload --hot",
     "test:watch": "jest --watchAll",
     "test": "jest",
-    "ci:test": "test --watchAll=false && start-server-and-test start:live 0.0.0.0:3500"
+    "ci:test": "start-server-and-test start:live 0.0.0.0:3500 test"
   },
   "jest": {
     "testEnvironment": "jsdom"
