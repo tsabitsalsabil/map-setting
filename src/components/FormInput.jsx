@@ -11,6 +11,7 @@ function FormInput({
       value={value}
       onChange={onChange}
       disabled={isDisabled}
+      id="test"
     />
   );
 }

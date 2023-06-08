@@ -153,7 +153,7 @@ function TableWithPagination({
         </tbody>
       </table>
       <div className="flex justify-between mt-8">
-        <h1>{`Showing ${pageIndex * pageSize + 1} to ${(pageIndex + 1) * pageSize} of ${pageCount} Entries`}</h1>
+        <h1>{`Showing ${pageIndex * (pageSize + 1)} to ${(pageIndex + 1) * pageSize} of ${pageCount} Entries`}</h1>
         <PaginationButton
           totalPage={10}
           gotoPageFunction={gotoPage}
