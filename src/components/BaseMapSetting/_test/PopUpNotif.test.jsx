@@ -1,7 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import PopUpNotif from '../PopUpNotif';
 
 /**
@@ -41,9 +40,9 @@ describe('Pop Up Notif Component ( <PopUpNotif /> )', () => {
   });
   it('Should not displayed after button close is clicked', () => {
     let isShow = true;
-    const handleClose = () => {
+    const handleClose = jest.fn().mockImplementation(() => {
       isShow = false;
-    };
+    });
     const { rerender } = render(<PopUpNotif icon="asd" isShow={isShow} message="asdasd" onClose={handleClose} />);
 
     const buttonCloseElement = screen.getByRole('button', {

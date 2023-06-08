@@ -4,7 +4,7 @@ function PopUpNotif({
   icon, message, isShow, onClose,
 }) {
   return isShow ? (
-    <article className="absolute top-0" data-testid="popupnotification">
+    <article className="absolute top-0">
       <span>
         <i>{icon}</i>
       </span>

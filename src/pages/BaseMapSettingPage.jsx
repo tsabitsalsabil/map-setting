@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SideBarMapSetting from '../components/BaseMapSetting/SidebarMapSetting';
@@ -12,6 +12,7 @@ import OnlineSource from '../components/InputWeb/OnlineSource';
 import { getFileExtension } from '../utils/getMapExtension';
 import ModalSuccess from '../components/ModalSuccess';
 import { asyncAddMapListActionCreator } from '../states/MapList/actionCreator';
+import PopUpNotif from '../components/BaseMapSetting/PopUpNotif';
 
 const subNavOptions = [
   {
@@ -44,7 +45,7 @@ function BaseMapSettingPage() {
   const [selectTypeValue, onChangeSelectTypeValue, setSelectTypeValue] = useInput();
   const [uploadedFile, setUploadedFile] = useState();
   const [fileSource, onChangeFileSourceHandler, setFileSource] = useInput();
-  const { modals: { isAddSuccess } } = useSelector((states) => states);
+  const { modals: { isAddSuccess }, requestStatus } = useSelector((states) => states);
 
   const onChangeUploadedFileHandler = ({ target }) => {
     setUploadedFile(target.files);
@@ -133,6 +134,7 @@ function BaseMapSettingPage() {
         />
       </Routes>
       <ModalSuccess buttonDescription="OK" messageDescription="Upload Success!" isShow={isAddSuccess} onClose={onClose} />
+      <PopUpNotif icon="asd" isShow={requestStatus.error} message={requestStatus.message} onClose={() => {}} />
     </article>
   );
 }
