@@ -26,3 +26,7 @@
 it('asd', () => {
   expect(true).toBeTruthy();
 });
+
+it('if 1 is 1', () => {
+  expect(1).toBe(1);
+});
