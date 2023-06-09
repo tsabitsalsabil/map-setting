@@ -22,4 +22,5 @@ export {
 export {
   fetchDataActionCreator,
   fetchDataFailedActionCreator,
+  toggleErrorActionCreator,
 } from './requestsStatus/requestStatusActionCreator';

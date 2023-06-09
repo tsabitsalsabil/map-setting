@@ -6,7 +6,7 @@ import SideBarMapSetting from '../components/BaseMapSetting/SidebarMapSetting';
 import BaseMapContent from '../components/BaseMapSetting/BaseMapContent';
 import MapListContent from '../components/BaseMapSetting/MapListContent';
 import useInput from '../hooks/useInput';
-import { searchMapListActionCreator, modalAddSuccessToggleActionCreator } from '../states';
+import { searchMapListActionCreator, modalAddSuccessToggleActionCreator, toggleErrorActionCreator } from '../states';
 import AddMapContent from '../components/BaseMapSetting/AddMapContent';
 import LocalSource from '../components/InputLocal/LocalSource';
 import OnlineSource from '../components/InputWeb/OnlineSource';
@@ -61,6 +61,9 @@ function BaseMapSettingPage() {
     setSelectTypeValue('');
     setUploadedFile('');
     setFileSource('');
+  };
+  const closePopupNotification = () => {
+    dispatch(toggleErrorActionCreator(false));
   };
 
   const onAddHandler = () => {
@@ -137,7 +140,7 @@ function BaseMapSettingPage() {
       <PopUpNotif
         icon={<IoMdCloseCircleOutline className="rounded-full text-2xl" />}
         message={requestStatus.message}
-        onClose={() => {}}
+        onClose={closePopupNotification}
         isShow={requestStatus.error}
       />
     </article>

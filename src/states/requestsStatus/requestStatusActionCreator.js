@@ -10,3 +10,12 @@ export const fetchDataFailedActionCreator = (message) => ({
     message,
   },
 });
+
+export const toggleErrorActionCreator = (value) => (
+  {
+    type: ACTION_TYPE.toggleError,
+    payload: {
+      isShow: value,
+    },
+  }
+);

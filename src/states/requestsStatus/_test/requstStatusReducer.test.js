@@ -7,12 +7,13 @@ import requestStatusReducer from '../requestStatusReducer';
  * Should change load value to true when given by fetchData action type
  * Should change error value to true and message to error message when
    given by fetchDataFailed action type
+ * it Should change error value to false, when given by toggle toggleError
  */
 
 describe('Request Status Reducer', () => {
   let initialState;
 
-  beforeAll(() => {
+  beforeEach(() => {
     initialState = {
       error: false,
       message: '',
@@ -66,5 +67,19 @@ describe('Request Status Reducer', () => {
       error: true,
       message: actionCreator.payload.message,
     });
+  });
+  it('Should change error to false when given by Toggle Eror type', () => {
+    const actionCreator = {
+      type: ACTION_TYPE.toggleError,
+      payload: {
+        isShow: false,
+      },
+    };
+
+    // action
+    const nextState = requestStatusReducer(initialState, actionCreator);
+
+    // assert
+    expect(nextState).toEqual({ ...initialState, error: false });
   });
 });
