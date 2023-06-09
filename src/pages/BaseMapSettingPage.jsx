@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { IoMdCloseCircleOutline } from 'react-icons/io';
 import SideBarMapSetting from '../components/BaseMapSetting/SidebarMapSetting';
 import BaseMapContent from '../components/BaseMapSetting/BaseMapContent';
 import MapListContent from '../components/BaseMapSetting/MapListContent';
@@ -9,7 +10,6 @@ import { searchMapListActionCreator, modalAddSuccessToggleActionCreator } from '
 import AddMapContent from '../components/BaseMapSetting/AddMapContent';
 import LocalSource from '../components/InputLocal/LocalSource';
 import OnlineSource from '../components/InputWeb/OnlineSource';
-import { getFileExtension } from '../utils/getMapExtension';
 import ModalSuccess from '../components/ModalSuccess';
 import { asyncAddMapListActionCreator } from '../states/MapList/actionCreator';
 import PopUpNotif from '../components/BaseMapSetting/PopUpNotif';
@@ -134,7 +134,12 @@ function BaseMapSettingPage() {
         />
       </Routes>
       <ModalSuccess buttonDescription="OK" messageDescription="Upload Success!" isShow={isAddSuccess} onClose={onClose} />
-      <PopUpNotif icon="asd" isShow={requestStatus.error} message={requestStatus.message} onClose={() => {}} />
+      <PopUpNotif
+        icon={<IoMdCloseCircleOutline className="rounded-full text-2xl" />}
+        message={requestStatus.message}
+        onClose={() => {}}
+        isShow={requestStatus.error}
+      />
     </article>
   );
 }
