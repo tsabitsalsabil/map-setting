@@ -45,8 +45,8 @@ function BaseMapSettingPage() {
   const [selectTypeValue, onChangeSelectTypeValue, setSelectTypeValue] = useInput();
   const [uploadedFile, setUploadedFile] = useState();
   const [fileSource, onChangeFileSourceHandler, setFileSource] = useInput();
-  const { modals: { isAddSuccess }, requestStatus } = useSelector((states) => states);
-
+  const { modals: { isAddSuccess }, requestStatus, listMap } = useSelector((states) => states);
+  console.log(listMap);
   const onChangeUploadedFileHandler = ({ target }) => {
     setUploadedFile(target.files);
   };
