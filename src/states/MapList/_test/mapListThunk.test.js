@@ -2,24 +2,32 @@ import api from '../../../api/api';
 import mapListReducer from '../mapListReducer';
 import { fetchDataActionCreator, fetchDataFailedActionCreator } from '../../requestsStatus/requestStatusActionCreator';
 import {
-  addMapListActionCreator, asyncAddMapListActionCreator, asyncGetMaplistActionCreator, fetchMapActionCreator, modalAddSuccessToggleActionCreator,
+  addMapListActionCreator,
+  asyncAddMapListActionCreator, asyncGetMaplistActionCreator, fetchMapActionCreator, modalAddSuccessToggleActionCreator, modalEditSuccessToggleActionCreator,
 } from '../..';
+import { asyncUpdateMapListActionCreator } from '../actionCreator';
 /**
  * Should dispatch correctly when get data failed
  * Should dispatch correctly when get data is succeed
  * Should dispatch correctly When add map data from local source
+ * Should Dispatch correctly when update data is failed
+ * Should dispatch correctly when update data is succeed
  */
 
 describe('Map List Thunk Test', () => {
   beforeEach(() => {
     api._fetchMapListData = api.fetchMapListData;
     api._addMapListData = api.addMapListData;
+    api._updateMapListData = api.updateMapListData;
   });
   afterEach(() => {
     api.fetchMapListData = api._fetchMapListData;
     api.addMapListData = api._addMapListData;
+    api.updateMapListData = api._updateMapListData;
 
     delete api._fetchMapListData;
+    delete api._addMapListData;
+    delete api._updateMapListData;
   });
   it('Should dispatch correctly when get data', async () => {
     // arrange
@@ -93,5 +101,45 @@ describe('Map List Thunk Test', () => {
     expect(dispatch).toHaveBeenCalledTimes(2);
     expect(dispatch).toHaveBeenCalledWith(addMapListActionCreator({ id: fakeResponseSuccess.data.id, map: dataToAdd.title }));
     expect(dispatch).toHaveBeenCalledWith(modalAddSuccessToggleActionCreator(fakeResponseSuccess.success));
+  });
+  it('Should dispatch correctly when update map data is failed', async () => {
+    // arrange
+    const dataToUpdated = {
+      id: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
+    };
+    const fakeErrorResponse = {
+      success: false,
+      message: 'Bad Request: Can\t Handle Basemap Data...',
+    };
+    api.updateMapListData = () => fakeErrorResponse;
+    const dispatch = jest.fn();
+    // action
+    await asyncUpdateMapListActionCreator(dataToUpdated.id, {
+      ...dataToUpdated,
+      name: 'ubah',
+      title: 'name',
+      url: 'url baru',
+    })(dispatch);
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith(fetchDataFailedActionCreator(fakeErrorResponse.message));
+  });
+  it('Should dispatch correctly when update map data is succeed', async () => {
+    // assert
+    const fakeResponse = {
+      success: true,
+      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    };
+    api.updateMapListData = () => fakeResponse;
+    const dispatch = jest.fn();
+
+    // action
+    await asyncUpdateMapListActionCreator(fakeResponse.id, {
+      file: 'asd', name: 'asd', title: 'asd', type: 'asd',
+    })(dispatch);
+
+    // assert
+    expect(dispatch).toHaveBeenCalledWith(modalEditSuccessToggleActionCreator(fakeResponse.success));
+    expect(dispatch).toHaveBeenCalledTimes(1);
   });
 });

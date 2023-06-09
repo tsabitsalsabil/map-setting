@@ -54,5 +54,24 @@ const api = {
     });
     return response.data.id;
   },
+
+  async updateMapListData(id, {
+    name, title, type, file,
+  }) {
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('title', title);
+    formData.append('type', type);
+    formData.append('file', file[0]);
+
+    const response = await this.fetchRequest(`${process.env.BE_PORT}/api/basemaps/${id}`, {
+      body: formData,
+    });
+
+    return {
+      success: response.data.success,
+      id: response.data.id,
+    };
+  },
 };
 export default api;

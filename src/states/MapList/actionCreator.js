@@ -3,6 +3,7 @@ import ACTION_TYPE from './mapListActionType';
 import {
   modalAddSuccessToggleActionCreator,
   modalDeleteSuccessToggleActionCreator,
+  modalEditSuccessToggleActionCreator,
 } from '../Modal/modalActionCreator';
 import { fetchDataActionCreator, fetchDataFailedActionCreator } from '../requestsStatus/requestStatusActionCreator';
 
@@ -72,4 +73,20 @@ export const asyncAddMapListActionCreator = (
   });
   dispatch(addMapListActionCreator({ id, map }));
   dispatch(modalAddSuccessToggleActionCreator(true));
+};
+
+export const asyncUpdateMapListActionCreator = (id, {
+  name,
+  title,
+  type,
+  file,
+}) => async (dispatch) => {
+  const response = await api.updateMapListData(id, {
+    name, title, type, file,
+  });
+  if (!response.success) {
+    dispatch(fetchDataFailedActionCreator(response.message));
+    return;
+  }
+  dispatch(modalEditSuccessToggleActionCreator(true));
 };
