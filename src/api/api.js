@@ -65,6 +65,7 @@ const api = {
     formData.append('file', file[0]);
 
     const response = await this.fetchRequest(`${process.env.BE_PORT}/api/basemaps/${id}`, {
+      method: 'PUT',
       body: formData,
     });
     console.log({ response });
@@ -73,6 +74,21 @@ const api = {
       success: response.data.success,
       id: response.data.id,
     };
+  },
+
+  async addMapListDataFromOnlineSource({
+    name, title, type, url,
+  }) {
+    const response = await this.fetchRequest(`${process.env.BE_PORT}/api/basemaps/web-data`, {
+      method: 'POST',
+      body: {
+        name,
+        title,
+        type,
+        url,
+      },
+    });
+    return response.data;
   },
 };
 export default api;

@@ -529,6 +529,26 @@ const mapListReducer = (state = initialState, action = {}) => {
       ];
     case ACTION_TYPE.getMapListType:
       return [...action.payload.mapList];
+    case ACTION_TYPE.putMapListType:
+      return state.map((map) => {
+        if (map.id === action.payload.id) {
+          return {
+            ...map,
+            ...action.payload.newData,
+          };
+        }
+        return map;
+      });
+      // const updatedData = state.map((map) => {
+      //   if (map.id === action.payload.id) {
+      //     return {
+      //       ...structuredClone(map),
+      //       ...structuredClone(action.payload.newData),
+      //     };
+      //   }
+      //   return structuredClone(map);
+      // });
+      // return updatedData;
     default: return state;
   }
 };

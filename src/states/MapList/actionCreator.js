@@ -88,5 +88,30 @@ export const asyncUpdateMapListActionCreator = (id, {
     dispatch(fetchDataFailedActionCreator(response.message));
     return;
   }
+  dispatch(editMapListActionCreator({
+    id,
+    newData: {
+      name: name || title,
+      title,
+      type,
+      file,
+    },
+  }));
   dispatch(modalEditSuccessToggleActionCreator(true));
+};
+
+export const asyncAddMapListFromOnlineSourceActionCreator = ({
+  name, title, type, url,
+}) => async (dispatch) => {
+  const response = await api.addMapListDataFromOnlineSource({
+    name,
+    title,
+    type,
+    url,
+  });
+  if (!response.id) {
+    dispatch(fetchDataFailedActionCreator(response.message));
+    return;
+  }
+  dispatch(modalAddSuccessToggleActionCreator(true));
 };

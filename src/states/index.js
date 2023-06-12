@@ -11,6 +11,7 @@ export {
   asyncAddMapListActionCreator,
   fetchMapActionCreator,
   asyncUpdateMapListActionCreator,
+  asyncAddMapListFromOnlineSourceActionCreator,
 } from './MapList/actionCreator';
 
 export {
