@@ -129,4 +129,43 @@ describe('Map List Reducer', () => {
   //     { id: action.payload.id, title: action.payload.map, source: action.payload.source },
   //     ...initialState]);
   // });
+  it('Should update given data to id to be update when given by putMapListType', () => {
+    // action
+    const initialState = [{
+      id: 1, name: 'asd', title: 'asd', type: 'GeoTIFF', url: 'http://192.168.6.69:8000/geoserver/MSIB/wms',
+    },
+    {
+      id: 2, name: 'Jawa Barat', title: 'Jawa Barat', type: 'GeoTIFF', url: 'http://192.168.6.69:8000/geoserver/MSIB/wms',
+    }];
+    const newData = {
+      id: 1,
+      name: 'Jawa Timur',
+      title: 'Jawa Timur',
+      url: 'new URL',
+      type: 'WMS',
+    };
+
+    const actionCreator = {
+      type: ACTION_TYPE.putMapListType,
+      payload: {
+        id: newData.id,
+        newData: { ...newData },
+      },
+    };
+
+    // action
+    const nextState = mapListReducer(initialState, actionCreator);
+    const newUpdatedData = initialState.map((map) => {
+      if (map.id === actionCreator.payload.id) {
+        return {
+          ...map,
+          ...actionCreator.payload.newData,
+        };
+      }
+      return map;
+    });
+
+    // assert
+    expect(nextState).toEqual(newUpdatedData);
+  });
 });
