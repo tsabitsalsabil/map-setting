@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import Overlay from './Overlay';
 import FormModal from './FormModal';
 import useInput from '../hooks/useInput';
@@ -9,7 +10,7 @@ const options = [
   { value: '.geojson', label: 'GeoJSON(.geojson)' },
   { value: '.kml', label: 'KML (.kml)' },
   { value: '.kmz', label: 'KMZ(.kmz)' },
-  { value: '.geotiff, .tif , .tiff', label: 'GeoTiff(.geotiff, .tif, .tiff)' },
+  { value: 'GeoTIFF', label: 'GeoTiff(.geotiff, .tif, .tiff)' },
   { value: '.dted', label: 'DTED(.dted)' },
   { value: '.nitf', label: 'Nitf(.nitf)' },
   { value: '.shp', label: 'Shapefile (.shp)' },
@@ -34,6 +35,8 @@ function EditModal({
   const [selectFileTypeValue, onChangeSelectFileTypeValue, setSelectFileTypeInput] = useInput();
   const [fileSource, setFileSource] = useState();
   const [fileSourceFromUrl, onChangeFileSourceFromUrlHandler] = useInput();
+  const { listMap } = useSelector((states) => states);
+  const mapToUpdate = useMemo(() => listMap.filter((map) => map.id === mapId)[0], [mapId]);
 
   const onClickSourceNavHandler = ({ target }) => {
     setSourceNav((prevState) => prevState.map((source) => {
@@ -50,7 +53,14 @@ function EditModal({
     setFileSource(target.files);
   };
   const onUpdateHandler = (e, { id, newData }) => {
-    onUpdate(e, { id, newData });
+    onUpdate(e, {
+      id,
+      newData: {
+        ...newData,
+        url: mapToUpdate.url,
+        file: fileSource,
+      },
+    });
     setFileNameInput('');
     setSelectFileTypeInput('');
     setFileSource('');

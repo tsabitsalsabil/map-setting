@@ -10,6 +10,7 @@ export {
   asyncDeleteMapListActionCreator,
   asyncAddMapListActionCreator,
   fetchMapActionCreator,
+  asyncUpdateMapListActionCreator,
 } from './MapList/actionCreator';
 
 export {

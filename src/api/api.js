@@ -67,6 +67,7 @@ const api = {
     const response = await this.fetchRequest(`${process.env.BE_PORT}/api/basemaps/${id}`, {
       body: formData,
     });
+    console.log({ response });
 
     return {
       success: response.data.success,

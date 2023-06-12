@@ -11,6 +11,7 @@ import {
   changeEditModalShowActionCreator,
   modalEditSuccessToggleActionCreator,
   modalDeleteSuccessToggleActionCreator,
+  asyncUpdateMapListActionCreator,
 } from '../states';
 import PaginationButton from './BaseMapSetting/PaginationButton';
 import ModalDelete from './ModalDelete';
@@ -56,7 +57,13 @@ function TableWithPagination({
 
   const onUpdate = (e, { id, newData }) => {
     e.preventDefault();
-    dispatch(editMapListActionCreator({ id, newData }));
+    console.log({ newData, id });
+    dispatch(asyncUpdateMapListActionCreator(id, {
+      name: newData.title,
+      title: newData.title,
+      url: newData.url,
+      file: newData.file,
+    }));
     setOnButtonClickEditMapHandler(false);
     dispatch(modalEditSuccessToggleActionCreator(true));
   };
