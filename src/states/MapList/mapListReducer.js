@@ -505,7 +505,7 @@ const mapListReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case ACTION_TYPE.deleteMapListType:
       return state.filter((map) => map.id !== action.payload.id);
-    case ACTION_TYPE.putMapListType:
+      // case ACTION_TYPE.putMapListType:
       const mapItemToUpdate = state.filter((mapItem) => mapItem.no === action.payload.id)[0];
       const newMapItemData = {
         ...mapItemToUpdate,
@@ -520,7 +520,7 @@ const mapListReducer = (state = initialState, action = {}) => {
       return state.filter(
         (mapItem) => mapItem.map.toLowerCase().includes(action.payload.keyword.toLowerCase()),
       );
-    case ACTION_TYPE.addMapListType:
+      // case ACTION_TYPE.addMapListType:
       return [{
         id: action.payload.id,
         map: action.payload.map,

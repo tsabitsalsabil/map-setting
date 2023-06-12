@@ -24,18 +24,14 @@ describe('Pop Up Notif Component ( <PopUpNotif /> )', () => {
   it('Should called onces when button close is clicked', () => {
     const mockFunction = jest.fn();
     render(<PopUpNotif icon="" isShow message="Gagal mendapatkan data" onClose={mockFunction} />);
-    const buttonCloseElement = screen.getByRole('button', {
-      name: 'x',
-    });
+    const buttonCloseElement = screen.getByRole('button');
     fireEvent.click(buttonCloseElement);
     // assert
     expect(mockFunction).toHaveBeenCalledTimes(1);
   });
   it('Should not rendered an element at first', () => {
     render(<PopUpNotif icon="asd" isShow={false} message="Close" onClose={() => {}} />);
-    const popupNotificationContainer = screen.queryByRole('button', {
-      name: 'x',
-    });
+    const popupNotificationContainer = screen.queryByRole('button');
     expect(popupNotificationContainer).not.toBeInTheDocument();
   });
   it('Should not displayed after button close is clicked', () => {
@@ -45,9 +41,7 @@ describe('Pop Up Notif Component ( <PopUpNotif /> )', () => {
     });
     const { rerender } = render(<PopUpNotif icon="asd" isShow={isShow} message="asdasd" onClose={handleClose} />);
 
-    const buttonCloseElement = screen.getByRole('button', {
-      name: 'x',
-    });
+    const buttonCloseElement = screen.getByRole('button');
     fireEvent.click(buttonCloseElement);
 
     rerender(<PopUpNotif icon="asd" isShow={isShow} message="asdasd" onClose={handleClose} />);

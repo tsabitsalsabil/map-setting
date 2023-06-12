@@ -18,8 +18,9 @@ function FormModal({
         onSubmit={(e) => onUpdateHandler(e, {
           id: mapId,
           newData: {
-            fileSource: fileSourceFromUrl ? `${fileSourceFromUrl}` : `${fileNameInput}${selectFileTypeValue}`,
-            map: fileNameInput,
+            url: fileSourceFromUrl ? `${fileSourceFromUrl}` : `${fileNameInput}.${selectFileTypeValue}`,
+            title: fileNameInput,
+            type: selectFileTypeValue,
           },
         })}
       >

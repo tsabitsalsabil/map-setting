@@ -9,6 +9,8 @@ export {
   asyncGetMaplistActionCreator,
   asyncDeleteMapListActionCreator,
   asyncAddMapListActionCreator,
+  fetchMapActionCreator,
+  asyncUpdateMapListActionCreator,
 } from './MapList/actionCreator';
 
 export {
@@ -22,4 +24,6 @@ export {
 export {
   fetchDataActionCreator,
   fetchDataFailedActionCreator,
+  toggleErrorActionCreator,
+
 } from './requestsStatus/requestStatusActionCreator';
