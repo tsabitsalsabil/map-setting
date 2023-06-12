@@ -11,7 +11,7 @@ import AddMapContent from '../components/BaseMapSetting/AddMapContent';
 import LocalSource from '../components/InputLocal/LocalSource';
 import OnlineSource from '../components/InputWeb/OnlineSource';
 import ModalSuccess from '../components/ModalSuccess';
-import { asyncAddMapListActionCreator } from '../states/MapList/actionCreator';
+import { asyncAddMapListActionCreator, asyncAddMapListFromOnlineSourceActionCreator } from '../states/MapList/actionCreator';
 import PopUpNotif from '../components/BaseMapSetting/PopUpNotif';
 
 const subNavOptions = [
@@ -25,15 +25,26 @@ const subNavOptions = [
   },
 ];
 const selectTypeOptions = [
-  { value: '.geojson', label: 'GeoJSON(.geojson)' },
-  { value: '.kml', label: 'KML (.kml)' },
-  { value: '.kmz', label: 'KMZ(.kmz)' },
+  { value: 'geojson', label: 'GeoJSON(.geojson)' },
+  { value: 'kml', label: 'KML (.kml)' },
+  { value: 'kmz', label: 'KMZ(.kmz)' },
   { value: 'GeoTIFF', label: 'GeoTiff(.geotiff, .tif, .tiff)' },
-  { value: '.dted', label: 'DTED(.dted)' },
-  { value: '.nitf', label: 'Nitf(.nitf)' },
-  { value: '.shp', label: 'Shapefile (.shp)' },
-  { value: '.adrg', label: 'ADRG (.adrg)' },
-  { value: '.jp2', label: 'JP2 (.jp2)' },
+  { value: 'dted', label: 'DTED(.dted)' },
+  { value: 'nitf', label: 'Nitf(.nitf)' },
+  { value: 'shp', label: 'Shapefile (.shp)' },
+  { value: 'adrg', label: 'ADRG (.adrg)' },
+  { value: 'jp2', label: 'JP2 (.jp2)' },
+];
+
+const onlineSourceOptions = [
+  {
+    value: 'WMS',
+    label: 'Web Map Service (WMS)',
+  },
+  {
+    value: 'WFS',
+    label: 'Web Feature Service (WFS)',
+  },
 ];
 
 function BaseMapSettingPage() {
@@ -73,6 +84,9 @@ function BaseMapSettingPage() {
     //   source: fileSource || (`${fileName}.${getFileExtension(uploadedFile[0].name)}`),
     //   no: +new Date(),
     // }));
+    console.log({
+      fileName, uploadedFile, selectTypeValue, fileSource,
+    });
     dispatch(asyncAddMapListActionCreator({
       map: fileName, uploadedFile, fileType: selectTypeValue, source: fileSource,
     }));
@@ -81,6 +95,13 @@ function BaseMapSettingPage() {
   const onClose = () => {
     dispatch(modalAddSuccessToggleActionCreator(false));
     navigate('/map-setting/');
+  };
+  const addHandlerFromOnlineSource = ({
+    name, title, type, url,
+  }) => {
+    dispatch(asyncAddMapListFromOnlineSourceActionCreator({
+      name, title, type, url,
+    }));
   };
 
   return (
@@ -105,7 +126,7 @@ function BaseMapSettingPage() {
               <AddMapContent
                 title={options[0].isActive ? options[0].name : options[1].name}
                 options={options}
-                onAddHandler={onAddHandler}
+                onAddHandler={options[0].isActive ? onAddHandler : addHandlerFromOnlineSource}
                 subNavOptions={options}
                 onCLose={onClose}
                 sourceComponent={options[0].isActive
@@ -125,7 +146,7 @@ function BaseMapSettingPage() {
                       onChangeFileName={onChangeFileName}
                       fileSource={fileSource}
                       onChangeFileSource={onChangeFileSourceHandler}
-                      SelectFileTypeOptions={selectTypeOptions}
+                      SelectFileTypeOptions={onlineSourceOptions}
                       selectFileTypeValue={selectTypeValue}
                       onChangeSelectTypeValue={onChangeSelectTypeValue}
                     />

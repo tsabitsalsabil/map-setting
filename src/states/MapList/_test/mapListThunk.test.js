@@ -5,7 +5,7 @@ import {
   addMapListActionCreator,
   asyncAddMapListActionCreator, asyncGetMaplistActionCreator, fetchMapActionCreator, modalAddSuccessToggleActionCreator, modalEditSuccessToggleActionCreator,
 } from '../..';
-import { asyncUpdateMapListActionCreator } from '../actionCreator';
+import { asyncAddMapListFromOnlineSourceActionCreator, asyncUpdateMapListActionCreator } from '../actionCreator';
 /**
  * Should dispatch correctly when get data failed
  * Should dispatch correctly when get data is succeed
@@ -19,15 +19,18 @@ describe('Map List Thunk Test', () => {
     api._fetchMapListData = api.fetchMapListData;
     api._addMapListData = api.addMapListData;
     api._updateMapListData = api.updateMapListData;
+    api._addMapListDataFromOnlineSource = api.addMapListDataFromOnlineSource;
   });
   afterEach(() => {
     api.fetchMapListData = api._fetchMapListData;
     api.addMapListData = api._addMapListData;
     api.updateMapListData = api._updateMapListData;
+    api.addMapListDataFromOnlineSource = api._addMapListDataFromOnlineSource;
 
     delete api._fetchMapListData;
     delete api._addMapListData;
     delete api._updateMapListData;
+    delete api._addMapListDataFromOnlineSource;
   });
   it('Should dispatch correctly when get data', async () => {
     // arrange
@@ -140,6 +143,39 @@ describe('Map List Thunk Test', () => {
 
     // assert
     expect(dispatch).toHaveBeenCalledWith(modalEditSuccessToggleActionCreator(fakeResponse.success));
+    expect(dispatch).toHaveBeenCalledTimes(2);
+  });
+  it('Should Dispatch Correctly when add map list data from online source failed', async () => {
+    // arrange
+    const fakeErrorResponse = {
+      message: 'Bad Request: Can\'t Handle Basemap Data...',
+    };
+    const dispatch = jest.fn();
+    api.addMapListDataFromOnlineSource = () => fakeErrorResponse;
+
+    // action
+    await asyncAddMapListFromOnlineSourceActionCreator({
+      name: 'Papua Barat', title: 'Papua Barat', type: 'WMS', url: 'https://basemap.nationalmap.gov/arcgis/services/USGSTNMBlank/MapServer/WMSServer?request=GetCapabilities&service=WMS',
+    })(dispatch);
+
     expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith(fetchDataFailedActionCreator(fakeErrorResponse.message));
+  });
+  it('Should dispatch correctly when add map list data from online source is succeed', async () => {
+    // arrange
+    const fakeSuccessResponse = {
+      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      url: 'https://basemap.nationalmap.gov/arcgis/services/USGSTNMBlank/MapServer/WMSServer?request=GetCapabilities&service=WMS',
+    };
+    const dispatch = jest.fn();
+    api.addMapListDataFromOnlineSource = () => fakeSuccessResponse;
+    // action
+    await asyncAddMapListFromOnlineSourceActionCreator({
+      name: 'Papua Barat', title: 'Papua Barat', type: 'WMS', url: 'https://basemap.nationalmap.gov/arcgis/services/USGSTNMBlank/MapServer/WMSServer?request=GetCapabilities&service=WMS',
+    })(dispatch);
+
+    // assert
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith(modalAddSuccessToggleActionCreator(true));
   });
 });

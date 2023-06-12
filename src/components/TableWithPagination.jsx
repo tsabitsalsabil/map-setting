@@ -57,12 +57,10 @@ function TableWithPagination({
 
   const onUpdate = (e, { id, newData }) => {
     e.preventDefault();
-    console.log({ newData, id });
+    console.log({ id, newDataFromTable: newData });
     dispatch(asyncUpdateMapListActionCreator(id, {
+      ...newData,
       name: newData.title,
-      title: newData.title,
-      url: newData.url,
-      file: newData.file,
     }));
     setOnButtonClickEditMapHandler(false);
     dispatch(modalEditSuccessToggleActionCreator(true));

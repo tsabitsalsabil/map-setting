@@ -53,12 +53,15 @@ function EditModal({
     setFileSource(target.files);
   };
   const onUpdateHandler = (e, { id, newData }) => {
+    console.log({ newData, mapToUpdate });
     onUpdate(e, {
       id,
       newData: {
-        ...newData,
-        url: mapToUpdate.url,
+        ...mapToUpdate,
+        url: newData.url,
         file: fileSource,
+        title: newData.title,
+        name: newData.title,
       },
     });
     setFileNameInput('');
