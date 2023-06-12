@@ -92,16 +92,17 @@ function BaseMapSettingPage() {
     }));
     clearAllDataInput();
   };
+
   const onClose = () => {
     dispatch(modalAddSuccessToggleActionCreator(false));
     navigate('/map-setting/');
   };
-  const addHandlerFromOnlineSource = ({
-    name, title, type, url,
-  }) => {
+
+  const addHandlerFromOnlineSource = () => {
     dispatch(asyncAddMapListFromOnlineSourceActionCreator({
-      name, title, type, url,
+      name: fileName, title: fileName, type: selectTypeValue, url: fileSource,
     }));
+    clearAllDataInput();
   };
 
   return (
@@ -117,7 +118,7 @@ function BaseMapSettingPage() {
                 onSearchKeywordValueChange={onChangeSearchKeyword}
               />
             </BaseMapContent>
-)}
+            )}
         />
         <Route
           path="/add-map"

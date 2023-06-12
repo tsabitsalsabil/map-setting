@@ -1,3 +1,4 @@
+import axios from 'axios';
 import ClientError from '../utils/ClientError';
 import InvariantError from '../utils/InvariantError';
 import NotFoundError from '../utils/NotFoundError';
@@ -68,11 +69,11 @@ const api = {
       method: 'PUT',
       body: formData,
     });
-    console.log({ response });
+    console.log({ responseData: response.data });
 
     return {
-      success: response.data.success,
-      id: response.data.id,
+      success: response.success,
+      id: response.id,
     };
   },
 
@@ -81,14 +82,19 @@ const api = {
   }) {
     const response = await this.fetchRequest(`${process.env.BE_PORT}/api/basemaps/web-data`, {
       method: 'POST',
-      body: {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
         name,
         title,
         type,
         url,
-      },
+      }),
     });
+    console.log({ response });
     return response.data;
   },
+
 };
 export default api;
