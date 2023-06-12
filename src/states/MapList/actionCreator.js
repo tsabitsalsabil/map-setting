@@ -109,6 +109,7 @@ export const asyncAddMapListFromOnlineSourceActionCreator = ({
     type,
     url,
   });
+  console.log(response);
   if (!response.id) {
     dispatch(fetchDataFailedActionCreator(response.message));
     return;
