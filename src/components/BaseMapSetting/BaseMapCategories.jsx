@@ -24,7 +24,7 @@ function BaseMapCategories() {
         <option value="option1">Map</option>
         <option value="option2">Source</option>
       </select>
-      <div className={`text-2xl pointer-events-none absolute inset-y-0 right-1 flex items-center px-2 text-gray-700 transition-transform duration-300 ${isOpen ? 'transform rotate-180' : ''}`} >
+      <div className={`text-2xl pointer-events-none absolute inset-y-0 right-1 flex items-center px-2 text-gray-700 transition-transform duration-150 ${isOpen ? 'transform rotate-180' : ''}`} >
         <span>
           <i><IoIosArrowDown /></i>
         </span>
