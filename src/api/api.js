@@ -90,5 +90,15 @@ const api = {
     });
     return response.data;
   },
-};
+
+  async fetchSearchByCategories({
+    category, query
+  }) {
+    const response = await this.fetchRequest(`${process.env.BE_PORT}/api/basemaps?category=${category} &&query=${query}`, {
+      method: 'GET',
+  });
+  return response.data;
+},
+}
+
 export default api;
