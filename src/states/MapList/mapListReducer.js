@@ -505,14 +505,6 @@ const mapListReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case ACTION_TYPE.deleteMapListType:
       return state.filter((map) => map.id !== action.payload.id);
-      // case ACTION_TYPE.putMapListType:
-      const mapItemToUpdate = state.filter((mapItem) => mapItem.no === action.payload.id)[0];
-      const newMapItemData = {
-        ...mapItemToUpdate,
-        source: action.payload.newData.fileSource,
-        map: action.payload.newData.map,
-      };
-      return [newMapItemData, ...state.filter((mapData) => mapData.no !== action.payload.id)];
     case ACTION_TYPE.searchMapListType:
       if (action.payload.keyword === '') {
         return initialState;
