@@ -7,6 +7,7 @@ import {
 } from '../Modal/modalActionCreator';
 import { fetchDataActionCreator, fetchDataFailedActionCreator } from '../requestsStatus/requestStatusActionCreator';
 import { toggleLoader } from '../loader/actionCreator';
+import { setSearchedMapActionCreator } from '../searchedMap/searchedMapActionCreator';
 
 export const deleteMapListActionCreator = (id) => ({
   type: ACTION_TYPE.deleteMapListType,
@@ -127,6 +128,6 @@ export const asyncAddMapListFromOnlineSourceActionCreator = ({
 };
 
 export const asyncSearchMap = (category, query) => async (dispatch) => {
-  const data = await api.searchMap({ category, query });
-  console.log(data);
+  const response = await api.searchMap({ category, query });
+  dispatch(setSearchedMapActionCreator(response));
 };

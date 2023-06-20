@@ -1,5 +1,5 @@
 const ACTION_TYPE = {
-  searchMap: 'SEARCH_MAP',
+  setSearchedMap: 'SET_SEARCHED_MAP',
 };
 
 export default ACTION_TYPE;

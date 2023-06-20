@@ -23,13 +23,8 @@ function TableWithPagination({
 }) {
   const [mapId, setMapId] = useState(0);
   const dispatch = useDispatch();
-  // use this when you don't use redux
-  // const [isShowModalDelete, setIsShowModalDelete] = useState(false);
-  // const [isEdit, setIsEdit] = useState(false);
-  // const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
-  // const [isUpdateSuccess, setIsUpdateSuccess] = useState(false);
+  console.log(tableDatas);
 
-  // use this when use redux
   const {
     modals: {
       isDelete: isShowModalDelete, isEdit, isDeleteSuccess, isUpdateSuccess,
@@ -57,7 +52,6 @@ function TableWithPagination({
 
   const onUpdate = (e, { id, newData }) => {
     e.preventDefault();
-    console.log({ id, newDataFromTable: newData });
     dispatch(asyncUpdateMapListActionCreator(id, {
       ...newData,
       name: newData.title,

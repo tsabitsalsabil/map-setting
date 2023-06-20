@@ -3,6 +3,7 @@ import mapListReducer from './MapList/mapListReducer';
 import modalReducer from './Modal/modalReducer';
 import requestStatusReducer from './requestsStatus/requestStatusReducer';
 import loaderReducer from './loader/loaderReducer';
+import searchedMapReducer from './searchedMap/searchedMapReducer';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     modals: modalReducer,
     requestStatus: requestStatusReducer,
     loader: loaderReducer,
+    searchedData: searchedMapReducer,
   },
 });
 

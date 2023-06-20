@@ -5,18 +5,18 @@ const mapListReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case ACTION_TYPE.deleteMapListType:
       return state.filter((map) => map.id !== action.payload.id);
-    case ACTION_TYPE.searchMapListType:
-      if (action.payload.category === 'all') {
-        return state.filter(
-          (mapItem) => mapItem.title.toLowerCase().includes(action.payload.query.toLowerCase()) || mapItem.source.toLowerCase().includes(action.payload.query.toLowerCase()),
-        );
-      }
-      if (action.payload.category === 'title') {
-        return state.filter((mapItem) => mapItem.title.toLowerCase().includes(action.payload.query.toLowerCase()));
-      }
-      if (action.payload.category === 'source') {
-        return state.filter((mapItem) => mapItem.source.toLowerCase().includes(action.payload.query.toLowerCase()));
-      }
+    // case ACTION_TYPE.searchMapListType:
+    //   if (action.payload.category === 'all') {
+    //     return state.filter(
+    //       (mapItem) => mapItem.title.toLowerCase().includes(action.payload.query.toLowerCase()) || mapItem.source.toLowerCase().includes(action.payload.query.toLowerCase()),
+    //     );
+    //   }
+    //   if (action.payload.category === 'title') {
+    //     return state.filter((mapItem) => mapItem.title.toLowerCase().includes(action.payload.query.toLowerCase()));
+    //   }
+    //   if (action.payload.category === 'source') {
+    //     return state.filter((mapItem) => mapItem.source.toLowerCase().includes(action.payload.query.toLowerCase()));
+    //   }
     case ACTION_TYPE.getMapListType:
       return [...action.payload.mapList];
     case ACTION_TYPE.putMapListType:

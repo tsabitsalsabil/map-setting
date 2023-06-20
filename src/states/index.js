@@ -31,3 +31,4 @@ export {
 } from './requestsStatus/requestStatusActionCreator';
 
 export { toggleLoader } from './loader/actionCreator';
+export { setSearchedMapActionCreator } from './searchedMap/searchedMapActionCreator';
