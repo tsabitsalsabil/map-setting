@@ -63,7 +63,6 @@ function TableWithPagination({
       name: newData.title,
     }));
     setOnButtonClickEditMapHandler(false);
-    dispatch(modalEditSuccessToggleActionCreator(true));
   };
 
   const onClickEditButton = (id) => {
@@ -74,6 +73,7 @@ function TableWithPagination({
   const onClose = () => {
     dispatch(modalDeleteSuccessToggleActionCreator(false));
     dispatch(changeEditModalShowActionCreator(false));
+    dispatch(modalEditSuccessToggleActionCreator(false));
   };
 
   const columns = useMemo(() => [

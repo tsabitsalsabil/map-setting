@@ -117,7 +117,7 @@ describe('Modal Reducers', () => {
     const nextState = modalReducer(initialState, actionCreator);
 
     // assert
-    expect(nextState).toEqual({ ...initialState, isEditSuccess: actionCreator.payload.isShow });
+    expect(nextState).toEqual({ ...initialState, isUpdateSuccess: actionCreator.payload.isShow });
   });
   it('Should change isEditSuccess when given by changeToggleEditModalSuccess action type to false', () => {
     // arrange
@@ -132,7 +132,7 @@ describe('Modal Reducers', () => {
     const nextState = modalReducer(initialState, actionCreator);
 
     // assert
-    expect(nextState).toEqual({ ...initialState, isEditSuccess: actionCreator.payload.isShow });
+    expect(nextState).toEqual({ ...initialState, isUpdateSuccess: actionCreator.payload.isShow });
   });
   it('Should change isDelete value to true when given by showDeleteModal action type', () => {
     // arrange

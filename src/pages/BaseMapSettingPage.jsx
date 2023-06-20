@@ -11,7 +11,7 @@ import AddMapContent from '../components/BaseMapSetting/AddMapContent';
 import LocalSource from '../components/InputLocal/LocalSource';
 import OnlineSource from '../components/InputWeb/OnlineSource';
 import ModalSuccess from '../components/ModalSuccess';
-import { asyncAddMapListActionCreator, asyncAddMapListFromOnlineSourceActionCreator } from '../states/MapList/actionCreator';
+import { asyncAddMapListActionCreator, asyncAddMapListFromOnlineSourceActionCreator, asyncSearchMap } from '../states/MapList/actionCreator';
 import PopUpNotif from '../components/BaseMapSetting/PopUpNotif';
 import Loading from '../components/Loading';
 import Overlay from '../components/Overlay';
@@ -27,15 +27,15 @@ const subNavOptions = [
   },
 ];
 const selectTypeOptions = [
-  { value: 'geojson', label: 'GeoJSON(.geojson)' },
-  { value: 'kml', label: 'KML (.kml)' },
-  { value: 'kmz', label: 'KMZ(.kmz)' },
+  { value: 'GeoJSON', label: 'GeoJSON(.geojson)' },
+  { value: 'KML', label: 'KML (.kml)' },
+  { value: 'KMZ', label: 'KMZ (.kmz)' },
+  { value: 'CSV', label: '(.csv)' },
+  { value: 'CZML', label: '(.czml)' },
   { value: 'GeoTIFF', label: 'GeoTiff(.geotiff, .tif, .tiff)' },
-  { value: 'dted', label: 'DTED(.dted)' },
-  { value: 'nitf', label: 'Nitf(.nitf)' },
-  { value: 'shp', label: 'Shapefile (.shp)' },
-  { value: 'adrg', label: 'ADRG (.adrg)' },
-  { value: 'jp2', label: 'JP2 (.jp2)' },
+  { value: 'DTED', label: 'DTED(.dted)' },
+  { value: 'NITF', label: 'Nitf(.nitf)' },
+  { value: 'ESRI Shapefile', label: 'Shapefile ' },
 ];
 
 const onlineSourceOptions = [
@@ -52,13 +52,16 @@ const onlineSourceOptions = [
 function BaseMapSettingPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [searchKeywordValue, , setSearchKeywordValue] = useInput();
+  const [searchKeywordValue, , setSearchKeywordValue] = useInput('');
+  const [searchCategory, setSearchCategory] = useState('all');
   const [options, setOptions] = useState(subNavOptions);
   const [fileName, onChangeFileName, setFileName] = useInput();
   const [selectTypeValue, onChangeSelectTypeValue, setSelectTypeValue] = useInput();
   const [uploadedFile, setUploadedFile] = useState();
   const [fileSource, onChangeFileSourceHandler, setFileSource] = useInput();
-  const { modals: { isAddSuccess }, requestStatus, listMap } = useSelector((states) => states);
+  const {
+    modals: { isAddSuccess }, requestStatus, listMap, loader: { isLoading, message },
+  } = useSelector((states) => states);
   console.log(listMap);
   const onChangeUploadedFileHandler = ({ target }) => {
     setUploadedFile(target.files);
@@ -66,8 +69,15 @@ function BaseMapSettingPage() {
 
   const onChangeSearchKeyword = ({ target }) => {
     setSearchKeywordValue(target.value);
-    dispatch(searchMapListActionCreator(target.value));
+    // if (searchCategory !== '') {
+    //   dispatch(asyncSearchMap(searchCategory, searchKeywordValue));
+    // }
   };
+
+  const onChangeCategory = ({ target }) => {
+    setSearchCategory(target.value);
+  };
+  console.log(searchKeywordValue);
 
   const clearAllDataInput = () => {
     setFileName('');
@@ -107,13 +117,6 @@ function BaseMapSettingPage() {
     clearAllDataInput();
   };
 
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, []);
-
   return (
     <article className="flex bg-[#F5F5F5]">
       <SideBarMapSetting />
@@ -125,6 +128,8 @@ function BaseMapSettingPage() {
               <MapListContent
                 searchKeywordValue={searchKeywordValue}
                 onSearchKeywordValueChange={onChangeSearchKeyword}
+                searchCategory={searchCategory}
+                onChangeCategory={onChangeCategory}
               />
             </BaseMapContent>
             )}
@@ -174,7 +179,7 @@ function BaseMapSettingPage() {
         onClose={closePopupNotification}
         isShow={requestStatus.error}
       />
-       <Loading isLoading={isLoading}/>
+      <Loading isLoading={isLoading} message={message} />
 
     </article>
   );

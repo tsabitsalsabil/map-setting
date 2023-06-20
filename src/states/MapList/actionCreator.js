@@ -6,6 +6,7 @@ import {
   modalEditSuccessToggleActionCreator,
 } from '../Modal/modalActionCreator';
 import { fetchDataActionCreator, fetchDataFailedActionCreator } from '../requestsStatus/requestStatusActionCreator';
+import { toggleLoader } from '../loader/actionCreator';
 
 export const deleteMapListActionCreator = (id) => ({
   type: ACTION_TYPE.deleteMapListType,
@@ -22,10 +23,11 @@ export const editMapListActionCreator = ({ id, newData }) => ({
   },
 });
 
-export const searchMapListActionCreator = (keyword) => ({
+export const searchMapListActionCreator = (category, query) => ({
   type: ACTION_TYPE.searchMapListType,
   payload: {
-    keyword,
+    category,
+    query,
   },
 });
 
@@ -68,9 +70,11 @@ export const asyncAddMapListActionCreator = (
     map, uploadedFile, fileType,
   },
 ) => async (dispatch) => {
+  dispatch(toggleLoader(true, 'Uploading...'));
   const id = await api.addMapListData({
     map, uploadedFile, fileType,
   });
+  dispatch(toggleLoader(false));
   dispatch(addMapListActionCreator({ id, map }));
   dispatch(modalAddSuccessToggleActionCreator(true));
 };
@@ -81,13 +85,17 @@ export const asyncUpdateMapListActionCreator = (id, {
   type,
   file,
 }) => async (dispatch) => {
+  dispatch(toggleLoader(true, 'Updating...'));
   const response = await api.updateMapListData(id, {
     name, title, type, file,
   });
   if (!response.success) {
     dispatch(fetchDataFailedActionCreator(response.message));
+    dispatch(toggleLoader(false, ''));
     return;
   }
+  dispatch(toggleLoader(false, ''));
+  dispatch(modalEditSuccessToggleActionCreator(true));
   dispatch(editMapListActionCreator({
     id,
     newData: {
@@ -97,22 +105,28 @@ export const asyncUpdateMapListActionCreator = (id, {
       file,
     },
   }));
-  dispatch(modalEditSuccessToggleActionCreator(true));
 };
 
 export const asyncAddMapListFromOnlineSourceActionCreator = ({
   name, title, type, url,
 }) => async (dispatch) => {
+  dispatch(toggleLoader(true, 'Adding...'));
   const response = await api.addMapListDataFromOnlineSource({
     name,
     title,
     type,
     url,
   });
-  console.log(response);
   if (!response.id) {
     dispatch(fetchDataFailedActionCreator(response.message));
+    dispatch(toggleLoader(false));
     return;
   }
+  dispatch(toggleLoader(false));
   dispatch(modalAddSuccessToggleActionCreator(true));
+};
+
+export const asyncSearchMap = (category, query) => async (dispatch) => {
+  const data = await api.searchMap({ category, query });
+  console.log(data);
 };

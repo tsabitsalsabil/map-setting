@@ -1,15 +1,16 @@
 import mapListReducer from '../mapListReducer';
 import ACTION_TYPE from '../mapListActionType';
-import NotFoundError from '../../../utils/NotFoundError';
 
 /**
  * test case scenario
  * Should return initial state when given by unknown action type
  * Should delete data when given by delete action creator
- * should return [] when map list item doesnt contain keyword
- * should return initialState when keyword value is ''
- * should return searched data in array when given by keyword that match
+ * should return find data when keyword value is match
  * Should return an all datas with new updated data when given by update data action creator
+ * Should return [] when map list item doesnt find an item
+ * Should return finded data when given category=title an query on input search
+ * Should return finded data when given category=source an query on input search
+ * Should return data fetched, when given by getMaplistType
  */
 
 describe('Map List Reducer', () => {
@@ -38,97 +39,120 @@ describe('Map List Reducer', () => {
     expect(reducer).toEqual((initialState.filter((mapItem) => mapItem.id !== action.payload.id)));
     expect(reducer).not.toBeNull();
   });
-  // it('Should return [] when map list item doesnt contain keyword', () => {
-  //   const initialState = [{ id: 1, title: 'asd', source: 'asd.geojson' }, { id: 2, title: 'test', source: 'test.tiff' }];
-  //   const action = {
-  //     type: ACTION_TYPE.searchMapListType,
-  //     payload: {
-  //       keyword: 'NOT FOUND KEYWORD',
-  //     },
-  //   };
+  it('Should return [] when map list item doesnt find an item', () => {
+    const initialState = [{ id: 1, title: 'asd', source: 'asd.geojson' }, { id: 2, title: 'test', source: 'test.tiff' }];
+    const action = {
+      type: ACTION_TYPE.searchMapListType,
+      payload: {
+        query: 'NOT FOUND KEYWORD',
+        category: 'all',
+      },
+    };
 
-  //   const reducer = mapListReducer(initialState, action);
-  //   expect(reducer).toHaveLength(0);
-  //   expect(reducer).toEqual([]);
-  // });
-  // it('Should return initialState when value is ""', () => {
-  //   const initialState = [{ id: 1, title: 'asd', source: 'asd.geojson' }, { id: 2, title: 'test', source: 'test.tiff' }];
-  //   const action = {
-  //     type: ACTION_TYPE.searchMapListType,
-  //     payload: {
-  //       keyword: '',
-  //     },
-  //   };
+    const reducer = mapListReducer(initialState, action);
+    console.log({ reducer });
+    expect(reducer).toHaveLength(0);
+    expect(reducer).toEqual([]);
+  });
+  it('should return find data when keyword value is match', () => {
+    // arrange
+    const initialState = [
+      { id: 1, title: 'asd', source: 'asd.geojson' },
+      { id: 2, title: 'test', source: 'test.tiff' },
+      { id: 3, title: 'testa', source: 'cek.wms' }];
+    const actionCreator = {
+      type: ACTION_TYPE.searchMapListType,
+      payload: {
+        category: 'all',
+        query: 'test',
+      },
+    };
 
-  //   // should fix, because state is not predictable
-  //   const reducer = mapListReducer(initialState, action);
-  //   expect(reducer).toHaveLength(2);
-  // });
-  // it('Should return searched data in array when given by match keyword', () => {
-  //   const initialState = [{ id: 1, title: 'asd', source: 'asd.geojson' }, { id: 2, title: 'test', source: 'test.tiff' }];
-  //   const action = {
-  //     type: ACTION_TYPE.searchMapListType,
-  //     payload: {
-  //       keyword: 'test',
-  //     },
-  //   };
+    // action
+    const nextState = mapListReducer(initialState, actionCreator);
 
-  //   const reducer = mapListReducer(initialState, action);
-  //   const searchedData = initialState.filter(
-  //     (mapItem) => mapItem.map.toLowerCase().includes(action.payload.keyword.toLowerCase()),
-  //   );
+    const findedData = initialState.filter(
+      (mapData) => mapData.title.toLowerCase().includes(actionCreator.payload.query.toLowerCase()) || mapData.source.toLowerCase().includes(actionCreator.payload.query.toLowerCase()),
+    );
+    // assert
+    expect(nextState).toEqual(findedData);
+    expect(nextState).toHaveLength(2);
+  });
+  it('Should return finded data when given category an query on input search', () => {
+    // arrange
+    const initialState = [
+      { id: 1, title: 'asd', source: 'asd.geojson' },
+      { id: 2, title: 'test', source: 'test.tiff' },
+      { id: 3, title: 'testa', source: 'cek.wms' }];
+    const actionCreator = {
+      type: ACTION_TYPE.searchMapListType,
+      payload: {
+        category: 'source',
+        query: 'test',
+      },
+    };
+    const nextState = mapListReducer(initialState, actionCreator);
 
-  //   expect(reducer).toHaveLength(1);
-  //   expect(reducer).toEqual(searchedData);
-  //   expect(searchedData).toHaveProperty('map');
-  // });
-  // it('Should return all data with new data when given by update action creator', () => {
-  //   const initialState = [{ id: 1, title: 'asd', source: 'asd.geojson' }, { id: 2, title: 'test', source: 'test.tiff' }];
-  //   const newData = {
-  //     map: 'map baru',
-  //     fileSource: 'source baru',
-  //   };
-  //   const action = {
-  //     type: ACTION_TYPE.putMapListType,
-  //     payload: {
-  //       id: 2,
-  //       newData: {
-  //         ...newData,
-  //       },
-  //     },
-  //   };
-  //   const filterState = initialState.filter((value) => value.id === action.payload.id)[0];
+    // assert
+    expect(nextState).toEqual([initialState[1]]);
+    expect(nextState).toHaveLength(1);
+  });
+  it('Should return [] when searched data with category = source and query is not found', () => {
+    // arrange
+    const initialState = [
+      { id: 1, title: 'asd', source: 'asd.geojson' },
+      { id: 2, title: 'test', source: 'test.tiff' },
+      { id: 3, title: 'testa', source: 'cek.wms' }];
+    const actionCreator = {
+      type: ACTION_TYPE.searchMapListType,
+      payload: {
+        category: 'source',
+        query: 'apa aja',
+      },
+    };
+    const nextState = mapListReducer(initialState, actionCreator);
 
-  //   const reducer = mapListReducer(initialState, action);
+    // assert
+    expect(nextState).toEqual([]);
+  });
+  it('Should return [] when searched data with category = source and query is not found', () => {
+    // arrange
+    const initialState = [
+      { id: 1, title: 'asd', source: 'asd.geojson' },
+      { id: 2, title: 'test', source: 'test.tiff' },
+      { id: 3, title: 'testa', source: 'cek.wms' }];
+    const actionCreator = {
+      type: ACTION_TYPE.searchMapListType,
+      payload: {
+        category: 'title',
+        query: 'apa aja',
+      },
+    };
+    const nextState = mapListReducer(initialState, actionCreator);
 
-  //   expect(reducer).toEqual(
-  //     [{
-  //       ...filterState,
-  //       title: action.payload.newData.map,
-  //       source: action.payload.newData.fileSource,
-  //     }, ...initialState.filter((value) => value.id !== action.payload.id)],
-  //   );
-  //   expect(reducer).toHaveLength(2);
-  // });
-  // it('Should return initial state with new data when given by add action creator', () => {
-  //   const initialState = [{ id: 1, title: 'asd', source: 'asd.geojson' }, { id: 2, title: 'test', source: 'test.tiff' }];
-  //   const action = {
-  //     type: ACTION_TYPE.addMapListType,
-  //     payload: {
-  //       newData: {
-  //         id: 'asdsa',
-  //         map: 'map data baru',
-  //         source: 'mapBaru.tiff',
-  //       },
-  //     },
-  //   };
+    // assert
+    expect(nextState).toEqual([]);
+  });
 
-  //   const nextState = mapListReducer(initialState, action);
-  //   expect(nextState).toHaveLength(3);
-  //   expect(nextState).toEqual([
-  //     { id: action.payload.id, title: action.payload.map, source: action.payload.source },
-  //     ...initialState]);
-  // });
+  it('Should return finded data when given category an query on input search', () => {
+    // arrange
+    const initialState = [
+      { id: 1, title: 'asd', source: 'asd.geojson' },
+      { id: 2, title: 'test', source: 'test.tiff' },
+      { id: 3, title: 'testa', source: 'cek.wms' }];
+    const actionCreator = {
+      type: ACTION_TYPE.searchMapListType,
+      payload: {
+        category: 'title',
+        query: 'asd',
+      },
+    };
+    const nextState = mapListReducer(initialState, actionCreator);
+
+    // assert
+    expect(nextState).toEqual([initialState[0]]);
+    expect(nextState).toHaveLength(1);
+  });
   it('Should update given data to id to be update when given by putMapListType', () => {
     // action
     const initialState = [{
@@ -155,17 +179,39 @@ describe('Map List Reducer', () => {
 
     // action
     const nextState = mapListReducer(initialState, actionCreator);
-    const newUpdatedData = initialState.map((map) => {
+    const newMapData = [];
+    initialState.map((map) => {
       if (map.id === actionCreator.payload.id) {
-        return {
-          ...map,
-          ...actionCreator.payload.newData,
-        };
+        map.id = actionCreator.payload.newData.id;
+        map.name = actionCreator.payload.newData.name;
+        map.title = actionCreator.payload.newData.title;
+        map.type = actionCreator.payload.newData.type;
+        map.url = actionCreator.payload.newData.url;
       }
-      return map;
+      newMapData.push(map);
     });
+    // assert
+    expect(nextState).toEqual(newMapData);
+  });
+  it('Should return data fetched, when given by getMaplistType', () => {
+    // arrange
+    const initialState = [];
+    const actionCreator = {
+      type: ACTION_TYPE.getMapListType,
+      payload: {
+        mapList: [{
+          id: 1, name: 'asd', title: 'asd', type: 'GeoTIFF', url: 'http://192.168.6.69:8000/geoserver/MSIB/wms',
+        },
+        {
+          id: 2, name: 'Jawa Barat', title: 'Jawa Barat', type: 'GeoTIFF', url: 'http://192.168.6.69:8000/geoserver/MSIB/wms',
+        }],
+      },
+
+    };
+    // action
+    const nextState = mapListReducer(initialState, actionCreator);
 
     // assert
-    expect(nextState).toEqual(newUpdatedData);
+    expect(nextState).toEqual(actionCreator.payload.mapList);
   });
 });

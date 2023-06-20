@@ -96,14 +96,14 @@ const api = {
     return response.data;
   },
 
-  async fetchSearchByCategories({
-    category, query
+  async searchMap({
+    category, query,
   }) {
-    const response = await this.fetchRequest(`${process.env.BE_PORT}/api/basemaps?category=${category} &&query=${query}`, {
+    const response = await this.fetchRequest(`${process.env.BE_PORT}/api/basemaps?category=${category}&&query=${query}`, {
       method: 'GET',
-  });
-  return response.data;
-},
-}
+    });
+    return response.data;
+  },
+};
 
 export default api;

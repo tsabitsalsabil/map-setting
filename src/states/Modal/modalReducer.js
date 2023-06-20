@@ -23,7 +23,7 @@ const modalReducer = (state = initialState, action = {}) => {
     case ACTION_TYPE.changeToggleEditModalSuccess:
       return {
         ...state,
-        isEditSuccess: action.payload.isShow,
+        isUpdateSuccess: action.payload.isShow,
       };
     case ACTION_TYPE.showDeleteModal:
       return {

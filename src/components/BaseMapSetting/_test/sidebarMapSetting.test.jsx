@@ -4,6 +4,10 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import SideBarMapSetting from '../SidebarMapSetting';
 
+/**
+ * Should Render Correctly
+ */
+
 describe('<SidebarMapSeting /> Component', () => {
   it('Should render correctly', () => {
     render(

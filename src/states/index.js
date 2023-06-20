@@ -12,6 +12,7 @@ export {
   fetchMapActionCreator,
   asyncUpdateMapListActionCreator,
   asyncAddMapListFromOnlineSourceActionCreator,
+  asyncSearchMap,
 } from './MapList/actionCreator';
 
 export {
@@ -28,3 +29,5 @@ export {
   toggleErrorActionCreator,
 
 } from './requestsStatus/requestStatusActionCreator';
+
+export { toggleLoader } from './loader/actionCreator';
