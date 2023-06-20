@@ -11,7 +11,7 @@ import AddMapContent from '../components/BaseMapSetting/AddMapContent';
 import LocalSource from '../components/InputLocal/LocalSource';
 import OnlineSource from '../components/InputWeb/OnlineSource';
 import ModalSuccess from '../components/ModalSuccess';
-import { asyncAddMapListActionCreator, asyncAddMapListFromOnlineSourceActionCreator } from '../states/MapList/actionCreator';
+import { asyncAddMapListActionCreator, asyncAddMapListFromOnlineSourceActionCreator, asyncSearchMap } from '../states/MapList/actionCreator';
 import PopUpNotif from '../components/BaseMapSetting/PopUpNotif';
 
 const subNavOptions = [
@@ -50,7 +50,8 @@ const onlineSourceOptions = [
 function BaseMapSettingPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [searchKeywordValue, , setSearchKeywordValue] = useInput();
+  const [searchKeywordValue, , setSearchKeywordValue] = useInput('');
+  const [searchCategory, setSearchCategory] = useState('all');
   const [options, setOptions] = useState(subNavOptions);
   const [fileName, onChangeFileName, setFileName] = useInput();
   const [selectTypeValue, onChangeSelectTypeValue, setSelectTypeValue] = useInput();
@@ -64,8 +65,15 @@ function BaseMapSettingPage() {
 
   const onChangeSearchKeyword = ({ target }) => {
     setSearchKeywordValue(target.value);
-    dispatch(searchMapListActionCreator(target.value));
+    // if (searchCategory !== '') {
+    //   dispatch(asyncSearchMap(searchCategory, searchKeywordValue));
+    // }
   };
+
+  const onChangeCategory = ({ target }) => {
+    setSearchCategory(target.value);
+  };
+  console.log(searchKeywordValue);
 
   const clearAllDataInput = () => {
     setFileName('');
@@ -116,6 +124,8 @@ function BaseMapSettingPage() {
               <MapListContent
                 searchKeywordValue={searchKeywordValue}
                 onSearchKeywordValueChange={onChangeSearchKeyword}
+                searchCategory={searchCategory}
+                onChangeCategory={onChangeCategory}
               />
             </BaseMapContent>
             )}

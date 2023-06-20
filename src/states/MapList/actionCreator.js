@@ -6,6 +6,7 @@ import {
   modalEditSuccessToggleActionCreator,
 } from '../Modal/modalActionCreator';
 import { fetchDataActionCreator, fetchDataFailedActionCreator } from '../requestsStatus/requestStatusActionCreator';
+import { toggleLoader } from '../loader/actionCreator';
 
 export const deleteMapListActionCreator = (id) => ({
   type: ACTION_TYPE.deleteMapListType,
@@ -22,10 +23,11 @@ export const editMapListActionCreator = ({ id, newData }) => ({
   },
 });
 
-export const searchMapListActionCreator = (keyword) => ({
+export const searchMapListActionCreator = (category, query) => ({
   type: ACTION_TYPE.searchMapListType,
   payload: {
-    keyword,
+    category,
+    query,
   },
 });
 
@@ -88,6 +90,8 @@ export const asyncUpdateMapListActionCreator = (id, {
     dispatch(fetchDataFailedActionCreator(response.message));
     return;
   }
+  dispatch(toggleLoader(true));
+  dispatch(modalEditSuccessToggleActionCreator(true));
   dispatch(editMapListActionCreator({
     id,
     newData: {
@@ -97,7 +101,6 @@ export const asyncUpdateMapListActionCreator = (id, {
       file,
     },
   }));
-  dispatch(modalEditSuccessToggleActionCreator(true));
 };
 
 export const asyncAddMapListFromOnlineSourceActionCreator = ({
@@ -115,4 +118,9 @@ export const asyncAddMapListFromOnlineSourceActionCreator = ({
     return;
   }
   dispatch(modalAddSuccessToggleActionCreator(true));
+};
+
+export const asyncSearchMap = (category, query) => async (dispatch) => {
+  const data = await api.searchMap({ category, query });
+  console.log(data);
 };

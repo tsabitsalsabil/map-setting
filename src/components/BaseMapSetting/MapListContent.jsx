@@ -3,11 +3,13 @@ import BaseMapCategories from './BaseMapCategories';
 import BaseMapSearch from './BaseMapSearch';
 import BaseMapTable from './BaseMapTable';
 
-function MapListContent({ searchKeywordValue, onSearchKeywordValueChange }) {
+function MapListContent({
+  searchKeywordValue, onSearchKeywordValueChange, searchCategory, onChangeCategory,
+}) {
   return (
     <div>
       <section className="flex gap-6 mt-10">
-        <BaseMapCategories />
+        <BaseMapCategories onChangeCategory={onChangeCategory} searchCategory={searchCategory} />
         <BaseMapSearch
           searchKeywordValue={searchKeywordValue}
           onSearchKeywordValueChange={onSearchKeywordValueChange}
