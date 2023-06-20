@@ -60,24 +60,28 @@ function BaseMapSettingPage() {
   const [uploadedFile, setUploadedFile] = useState();
   const [fileSource, onChangeFileSourceHandler, setFileSource] = useInput();
   const {
-    modals: { isAddSuccess }, requestStatus, listMap, loader: { isLoading, message },
+    modals: { isAddSuccess }, requestStatus, loader: { isLoading, message },
   } = useSelector((states) => states);
-  console.log(listMap);
   const onChangeUploadedFileHandler = ({ target }) => {
     setUploadedFile(target.files);
   };
 
   const onChangeSearchKeyword = ({ target }) => {
     setSearchKeywordValue(target.value);
-    // if (searchCategory !== '') {
-    //   dispatch(asyncSearchMap(searchCategory, searchKeywordValue));
-    // }
   };
+  useEffect(() => {
+    const getData = setTimeout(() => {
+      if (searchCategory !== '') {
+        dispatch(asyncSearchMap(searchCategory, searchKeywordValue));
+      }
+    }, 1000);
+
+    return () => clearInterval(getData);
+  }, [searchKeywordValue]);
 
   const onChangeCategory = ({ target }) => {
     setSearchCategory(target.value);
   };
-  console.log(searchKeywordValue);
 
   const clearAllDataInput = () => {
     setFileName('');
