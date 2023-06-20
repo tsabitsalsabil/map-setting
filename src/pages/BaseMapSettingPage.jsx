@@ -27,15 +27,15 @@ const subNavOptions = [
   },
 ];
 const selectTypeOptions = [
-  { value: 'geojson', label: 'GeoJSON(.geojson)' },
-  { value: 'kml', label: 'KML (.kml)' },
-  { value: 'kmz', label: 'KMZ(.kmz)' },
+  { value: 'GeoJSON', label: 'GeoJSON(.geojson)' },
+  { value: 'KML', label: 'KML (.kml)' },
+  { value: 'KMZ', label: 'KMZ (.kmz)' },
+  { value: 'CSV', label: '(.csv)' },
+  { value: 'CZML', label: '(.czml)' },
   { value: 'GeoTIFF', label: 'GeoTiff(.geotiff, .tif, .tiff)' },
-  { value: 'dted', label: 'DTED(.dted)' },
-  { value: 'nitf', label: 'Nitf(.nitf)' },
-  { value: 'shp', label: 'Shapefile (.shp)' },
-  { value: 'adrg', label: 'ADRG (.adrg)' },
-  { value: 'jp2', label: 'JP2 (.jp2)' },
+  { value: 'DTED', label: 'DTED(.dted)' },
+  { value: 'NITF', label: 'Nitf(.nitf)' },
+  { value: 'ESRI Shapefile', label: 'Shapefile ' },
 ];
 
 const onlineSourceOptions = [
@@ -59,7 +59,9 @@ function BaseMapSettingPage() {
   const [selectTypeValue, onChangeSelectTypeValue, setSelectTypeValue] = useInput();
   const [uploadedFile, setUploadedFile] = useState();
   const [fileSource, onChangeFileSourceHandler, setFileSource] = useInput();
-  const { modals: { isAddSuccess }, requestStatus, listMap } = useSelector((states) => states);
+  const {
+    modals: { isAddSuccess }, requestStatus, listMap, loader: { isLoading, message },
+  } = useSelector((states) => states);
   console.log(listMap);
   const onChangeUploadedFileHandler = ({ target }) => {
     setUploadedFile(target.files);
@@ -114,13 +116,6 @@ function BaseMapSettingPage() {
     }));
     clearAllDataInput();
   };
-
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, []);
 
   return (
     <article className="flex bg-[#F5F5F5]">
@@ -184,7 +179,7 @@ function BaseMapSettingPage() {
         onClose={closePopupNotification}
         isShow={requestStatus.error}
       />
-       <Loading isLoading={isLoading}/>
+      <Loading isLoading={isLoading} message={message} />
 
     </article>
   );

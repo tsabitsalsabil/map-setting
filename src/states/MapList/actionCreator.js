@@ -70,9 +70,11 @@ export const asyncAddMapListActionCreator = (
     map, uploadedFile, fileType,
   },
 ) => async (dispatch) => {
+  dispatch(toggleLoader(true, 'Uploading...'));
   const id = await api.addMapListData({
     map, uploadedFile, fileType,
   });
+  dispatch(toggleLoader(false));
   dispatch(addMapListActionCreator({ id, map }));
   dispatch(modalAddSuccessToggleActionCreator(true));
 };
@@ -83,14 +85,16 @@ export const asyncUpdateMapListActionCreator = (id, {
   type,
   file,
 }) => async (dispatch) => {
+  dispatch(toggleLoader(true, 'Updating...'));
   const response = await api.updateMapListData(id, {
     name, title, type, file,
   });
   if (!response.success) {
     dispatch(fetchDataFailedActionCreator(response.message));
+    dispatch(toggleLoader(false, ''));
     return;
   }
-  dispatch(toggleLoader(true));
+  dispatch(toggleLoader(false, ''));
   dispatch(modalEditSuccessToggleActionCreator(true));
   dispatch(editMapListActionCreator({
     id,
@@ -106,17 +110,19 @@ export const asyncUpdateMapListActionCreator = (id, {
 export const asyncAddMapListFromOnlineSourceActionCreator = ({
   name, title, type, url,
 }) => async (dispatch) => {
+  dispatch(toggleLoader(true, 'Adding...'));
   const response = await api.addMapListDataFromOnlineSource({
     name,
     title,
     type,
     url,
   });
-  console.log(response);
   if (!response.id) {
     dispatch(fetchDataFailedActionCreator(response.message));
+    dispatch(toggleLoader(false));
     return;
   }
+  dispatch(toggleLoader(false));
   dispatch(modalAddSuccessToggleActionCreator(true));
 };
 

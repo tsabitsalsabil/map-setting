@@ -3,9 +3,9 @@ import mapListReducer from '../mapListReducer';
 import { fetchDataActionCreator, fetchDataFailedActionCreator } from '../../requestsStatus/requestStatusActionCreator';
 import {
   addMapListActionCreator,
-  asyncAddMapListActionCreator, asyncGetMaplistActionCreator, fetchMapActionCreator, modalAddSuccessToggleActionCreator, modalEditSuccessToggleActionCreator,
+  asyncAddMapListActionCreator, asyncGetMaplistActionCreator, fetchMapActionCreator, modalAddSuccessToggleActionCreator, modalEditSuccessToggleActionCreator, toggleLoader,
 } from '../..';
-import { asyncAddMapListFromOnlineSourceActionCreator, asyncUpdateMapListActionCreator } from '../actionCreator';
+import { asyncAddMapListFromOnlineSourceActionCreator, asyncUpdateMapListActionCreator, editMapListActionCreator } from '../actionCreator';
 /**
  * Should dispatch correctly when get data failed
  * Should dispatch correctly when get data is succeed
@@ -20,17 +20,20 @@ describe('Map List Thunk Test', () => {
     api._addMapListData = api.addMapListData;
     api._updateMapListData = api.updateMapListData;
     api._addMapListDataFromOnlineSource = api.addMapListDataFromOnlineSource;
+    api._searchMap = api.searchMap;
   });
   afterEach(() => {
     api.fetchMapListData = api._fetchMapListData;
     api.addMapListData = api._addMapListData;
     api.updateMapListData = api._updateMapListData;
     api.addMapListDataFromOnlineSource = api._addMapListDataFromOnlineSource;
+    api.searchMap = api._searchMap;
 
     delete api._fetchMapListData;
     delete api._addMapListData;
     delete api._updateMapListData;
     delete api._addMapListDataFromOnlineSource;
+    delete api._searchMap;
   });
   it('Should dispatch correctly when get data', async () => {
     // arrange
@@ -101,9 +104,11 @@ describe('Map List Thunk Test', () => {
       fileType: dataToAdd.type,
     })(dispatch);
 
-    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch).toHaveBeenCalledTimes(4);
     expect(dispatch).toHaveBeenCalledWith(addMapListActionCreator({ id: fakeResponseSuccess.data.id, map: dataToAdd.title }));
     expect(dispatch).toHaveBeenCalledWith(modalAddSuccessToggleActionCreator(fakeResponseSuccess.success));
+    expect(dispatch).toHaveBeenCalledWith(toggleLoader(false));
+    expect(dispatch).toHaveBeenCalledWith(toggleLoader(true, 'Uploading...'));
   });
   it('Should dispatch correctly when update map data is failed', async () => {
     // arrange
@@ -124,7 +129,8 @@ describe('Map List Thunk Test', () => {
       url: 'url baru',
     })(dispatch);
 
-    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledTimes(3);
+    expect(dispatch).toHaveBeenCalledWith(toggleLoader(false));
     expect(dispatch).toHaveBeenCalledWith(fetchDataFailedActionCreator(fakeErrorResponse.message));
   });
   it('Should dispatch correctly when update map data is succeed', async () => {
@@ -142,8 +148,15 @@ describe('Map List Thunk Test', () => {
     })(dispatch);
 
     // assert
+    expect(dispatch).toHaveBeenCalledTimes(4);
     expect(dispatch).toHaveBeenCalledWith(modalEditSuccessToggleActionCreator(fakeResponse.success));
-    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch).toHaveBeenCalledWith(toggleLoader(true, 'Updating...'));
+    expect(dispatch).toHaveBeenCalledWith(editMapListActionCreator({
+      id: fakeResponse.id,
+      newData: {
+        file: 'asd', name: 'asd', title: 'asd', type: 'asd',
+      },
+    }));
   });
   it('Should Dispatch Correctly when add map list data from online source failed', async () => {
     // arrange
@@ -158,8 +171,10 @@ describe('Map List Thunk Test', () => {
       name: 'Papua Barat', title: 'Papua Barat', type: 'WMS', url: 'https://basemap.nationalmap.gov/arcgis/services/USGSTNMBlank/MapServer/WMSServer?request=GetCapabilities&service=WMS',
     })(dispatch);
 
-    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledTimes(3);
     expect(dispatch).toHaveBeenCalledWith(fetchDataFailedActionCreator(fakeErrorResponse.message));
+    expect(dispatch).toHaveBeenCalledWith(toggleLoader(true, 'Adding...'));
+    expect(dispatch).toHaveBeenCalledWith(toggleLoader(false));
   });
   it('Should dispatch correctly when add map list data from online source is succeed', async () => {
     // arrange
@@ -175,7 +190,9 @@ describe('Map List Thunk Test', () => {
     })(dispatch);
 
     // assert
-    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledTimes(3);
     expect(dispatch).toHaveBeenCalledWith(modalAddSuccessToggleActionCreator(true));
+    expect(dispatch).toHaveBeenCalledWith(toggleLoader(true, 'Adding...'));
+    expect(dispatch).toHaveBeenCalledWith(toggleLoader(false));
   });
 });

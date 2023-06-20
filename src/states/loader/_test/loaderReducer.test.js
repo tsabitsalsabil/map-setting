@@ -31,13 +31,14 @@ describe('Loader Reducer', () => {
     const actionCreator = {
       type: ACTION_TYPE.setLoader,
       payload: {
-        value: false,
+        message: '',
+        isLoading: false,
       },
     };
     // action
     const nextState = loaderReducer(initialState, actionCreator);
     // assert
-    expect(nextState).toEqual(actionCreator.payload.value);
+    expect(nextState).toEqual({ ...actionCreator.payload });
   });
   it('Should set state to true when givn by set loader to true', () => {
     // arrange
@@ -45,12 +46,13 @@ describe('Loader Reducer', () => {
     const actionCreator = {
       type: ACTION_TYPE.setLoader,
       payload: {
-        value: true,
+        message: 'Uploading',
+        isLoading: true,
       },
     };
     // action
     const nextState = loaderReducer(initialState, actionCreator);
     // assert
-    expect(nextState).toEqual(actionCreator.payload.value);
+    expect(nextState).toEqual({ ...actionCreator.payload });
   });
 });
