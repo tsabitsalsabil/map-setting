@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
@@ -13,6 +13,8 @@ import OnlineSource from '../components/InputWeb/OnlineSource';
 import ModalSuccess from '../components/ModalSuccess';
 import { asyncAddMapListActionCreator, asyncAddMapListFromOnlineSourceActionCreator } from '../states/MapList/actionCreator';
 import PopUpNotif from '../components/BaseMapSetting/PopUpNotif';
+import Loading from '../components/Loading';
+import Overlay from '../components/Overlay';
 
 const subNavOptions = [
   {
@@ -104,6 +106,13 @@ function BaseMapSettingPage() {
     }));
   };
 
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
   return (
     <article className="flex bg-[#F5F5F5]">
       <SideBarMapSetting />
@@ -164,6 +173,8 @@ function BaseMapSettingPage() {
         onClose={closePopupNotification}
         isShow={requestStatus.error}
       />
+       <Loading isLoading={isLoading}/>
+
     </article>
   );
 }
