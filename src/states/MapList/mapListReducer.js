@@ -32,6 +32,13 @@ const mapListReducer = (state = initialState, action = {}) => {
         newMapList.push(map);
       });
       return newMapList;
+    case ACTION_TYPE.addMapListType:
+      return [
+        ...state,
+        {
+          ...action.payload,
+        },
+      ];
     default: return state;
   }
 };

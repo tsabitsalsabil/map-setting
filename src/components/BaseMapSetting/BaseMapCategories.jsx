@@ -8,7 +8,7 @@ function BaseMapCategories({ searchCategory, onChangeCategory }) {
   };
 
   return (
-    <div className="relative inline-block w-2/12">
+    <div className="relative inline-block lg:w-3/12 xl:w-2/12 ">
       <select
         value={searchCategory}
         onChange={onChangeCategory}

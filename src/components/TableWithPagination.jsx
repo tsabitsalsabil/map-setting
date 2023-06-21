@@ -23,7 +23,6 @@ function TableWithPagination({
 }) {
   const [mapId, setMapId] = useState(0);
   const dispatch = useDispatch();
-  console.log(tableDatas);
 
   const {
     modals: {
@@ -123,14 +122,14 @@ function TableWithPagination({
 
   return (
     <div>
-      <table {...getTableProps()} className="w-full mt-8 p-2 text-center table-fixed">
+      <table {...getTableProps()} className="w-full mt-8 p-2 text-center table-fixed lg:table-auto">
         <thead className={`p-4 ${headerStyle}`}>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())} className="relative">
+                <th {...column.getHeaderProps(column.getSortByToggleProps())} className="relative w-1/4">
                   {column.render('Header')}
-                  {(column.Header !== 'No' && column.Header !== 'Action') && <FaSortAlphaDown className="absolute right-10 top-1" />}
+                  {(column.Header !== 'No' && column.Header !== 'Action') && <FaSortAlphaDown className="absolute xl:right-10 lg:right-0 top-1" />}
                 </th>
               ))}
             </tr>
@@ -152,7 +151,7 @@ function TableWithPagination({
         </tbody>
       </table>
       <div className="flex justify-between mt-8">
-        <h1>{`Showing ${pageIndex * (pageSize + 1)} to ${(pageIndex + 1) * pageSize} of ${pageCount} Entries`}</h1>
+        <h1>{`Showing ${pageIndex * (pageSize + 1) + 1} to ${(pageIndex + 1) * pageSize} of ${pageCount} Entries`}</h1>
         <PaginationButton
           totalPage={10}
           gotoPageFunction={gotoPage}
@@ -161,6 +160,7 @@ function TableWithPagination({
           nextPage={nextPage}
           previousPage={previousPage}
           activePage={pageIndex}
+          dataLength={tableDatas.length}
         />
       </div>
       <ModalDelete
