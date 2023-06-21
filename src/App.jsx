@@ -10,7 +10,6 @@ import store from './states/store';
 import './index.scss';
 
 function App() {
-  console.log(process.env.BE_PORT);
   return (
     <React.StrictMode>
       <BrowserRouter>

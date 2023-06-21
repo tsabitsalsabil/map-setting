@@ -99,13 +99,20 @@ describe('Map List Thunk Test', () => {
     const dispatch = jest.fn();
     // action
     await asyncAddMapListActionCreator({
-      map: dataToAdd.title,
+      name: dataToAdd.name,
+      title: dataToAdd.title,
       uploadedFile: dataToAdd.url,
       fileType: dataToAdd.type,
     })(dispatch);
 
     expect(dispatch).toHaveBeenCalledTimes(4);
-    expect(dispatch).toHaveBeenCalledWith(addMapListActionCreator({ id: fakeResponseSuccess.data.id, map: dataToAdd.title }));
+    expect(dispatch).toHaveBeenCalledWith(addMapListActionCreator({
+      id: dataToAdd.id,
+      name: dataToAdd.name,
+      title: dataToAdd.title,
+      file: dataToAdd.url,
+      type: dataToAdd.type,
+    }));
     expect(dispatch).toHaveBeenCalledWith(modalAddSuccessToggleActionCreator(fakeResponseSuccess.success));
     expect(dispatch).toHaveBeenCalledWith(toggleLoader(false));
     expect(dispatch).toHaveBeenCalledWith(toggleLoader(true, 'Uploading...'));

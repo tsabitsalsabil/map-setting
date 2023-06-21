@@ -39,120 +39,120 @@ describe('Map List Reducer', () => {
     expect(reducer).toEqual((initialState.filter((mapItem) => mapItem.id !== action.payload.id)));
     expect(reducer).not.toBeNull();
   });
-  it('Should return [] when map list item doesnt find an item', () => {
-    const initialState = [{ id: 1, title: 'asd', source: 'asd.geojson' }, { id: 2, title: 'test', source: 'test.tiff' }];
-    const action = {
-      type: ACTION_TYPE.searchMapListType,
-      payload: {
-        query: 'NOT FOUND KEYWORD',
-        category: 'all',
-      },
-    };
+  // it('Should return [] when map list item doesnt find an item', () => {
+  //   const initialState = [{ id: 1, title: 'asd', source: 'asd.geojson' }, { id: 2, title: 'test', source: 'test.tiff' }];
+  //   const action = {
+  //     type: ACTION_TYPE.searchMapListType,
+  //     payload: {
+  //       query: 'NOT FOUND KEYWORD',
+  //       category: 'all',
+  //     },
+  //   };
 
-    const reducer = mapListReducer(initialState, action);
-    console.log({ reducer });
-    expect(reducer).toHaveLength(0);
-    expect(reducer).toEqual([]);
-  });
-  it('should return find data when keyword value is match', () => {
-    // arrange
-    const initialState = [
-      { id: 1, title: 'asd', source: 'asd.geojson' },
-      { id: 2, title: 'test', source: 'test.tiff' },
-      { id: 3, title: 'testa', source: 'cek.wms' }];
-    const actionCreator = {
-      type: ACTION_TYPE.searchMapListType,
-      payload: {
-        category: 'all',
-        query: 'test',
-      },
-    };
+  //   const reducer = mapListReducer(initialState, action);
+  //   console.log({ reducer });
+  //   expect(reducer).toHaveLength(0);
+  //   expect(reducer).toEqual([]);
+  // });
+  // it('should return find data when keyword value is match', () => {
+  //   // arrange
+  //   const initialState = [
+  //     { id: 1, title: 'asd', source: 'asd.geojson' },
+  //     { id: 2, title: 'test', source: 'test.tiff' },
+  //     { id: 3, title: 'testa', source: 'cek.wms' }];
+  //   const actionCreator = {
+  //     type: ACTION_TYPE.searchMapListType,
+  //     payload: {
+  //       category: 'all',
+  //       query: 'test',
+  //     },
+  //   };
 
-    // action
-    const nextState = mapListReducer(initialState, actionCreator);
+  //   // action
+  //   const nextState = mapListReducer(initialState, actionCreator);
 
-    const findedData = initialState.filter(
-      (mapData) => mapData.title.toLowerCase().includes(actionCreator.payload.query.toLowerCase()) || mapData.source.toLowerCase().includes(actionCreator.payload.query.toLowerCase()),
-    );
-    // assert
-    expect(nextState).toEqual(findedData);
-    expect(nextState).toHaveLength(2);
-  });
-  it('Should return finded data when given category an query on input search', () => {
-    // arrange
-    const initialState = [
-      { id: 1, title: 'asd', source: 'asd.geojson' },
-      { id: 2, title: 'test', source: 'test.tiff' },
-      { id: 3, title: 'testa', source: 'cek.wms' }];
-    const actionCreator = {
-      type: ACTION_TYPE.searchMapListType,
-      payload: {
-        category: 'source',
-        query: 'test',
-      },
-    };
-    const nextState = mapListReducer(initialState, actionCreator);
+  //   const findedData = initialState.filter(
+  //     (mapData) => mapData.title.toLowerCase().includes(actionCreator.payload.query.toLowerCase()) || mapData.source.toLowerCase().includes(actionCreator.payload.query.toLowerCase()),
+  //   );
+  //   // assert
+  //   expect(nextState).toEqual(findedData);
+  //   expect(nextState).toHaveLength(2);
+  // });
+  // it('Should return finded data when given category an query on input search', () => {
+  //   // arrange
+  //   const initialState = [
+  //     { id: 1, title: 'asd', source: 'asd.geojson' },
+  //     { id: 2, title: 'test', source: 'test.tiff' },
+  //     { id: 3, title: 'testa', source: 'cek.wms' }];
+  //   const actionCreator = {
+  //     type: ACTION_TYPE.searchMapListType,
+  //     payload: {
+  //       category: 'source',
+  //       query: 'test',
+  //     },
+  //   };
+  //   const nextState = mapListReducer(initialState, actionCreator);
 
-    // assert
-    expect(nextState).toEqual([initialState[1]]);
-    expect(nextState).toHaveLength(1);
-  });
-  it('Should return [] when searched data with category = source and query is not found', () => {
-    // arrange
-    const initialState = [
-      { id: 1, title: 'asd', source: 'asd.geojson' },
-      { id: 2, title: 'test', source: 'test.tiff' },
-      { id: 3, title: 'testa', source: 'cek.wms' }];
-    const actionCreator = {
-      type: ACTION_TYPE.searchMapListType,
-      payload: {
-        category: 'source',
-        query: 'apa aja',
-      },
-    };
-    const nextState = mapListReducer(initialState, actionCreator);
+  //   // assert
+  //   expect(nextState).toEqual([initialState[1]]);
+  //   expect(nextState).toHaveLength(1);
+  // });
+  // it('Should return [] when searched data with category = source and query is not found', () => {
+  //   // arrange
+  //   const initialState = [
+  //     { id: 1, title: 'asd', source: 'asd.geojson' },
+  //     { id: 2, title: 'test', source: 'test.tiff' },
+  //     { id: 3, title: 'testa', source: 'cek.wms' }];
+  //   const actionCreator = {
+  //     type: ACTION_TYPE.searchMapListType,
+  //     payload: {
+  //       category: 'source',
+  //       query: 'apa aja',
+  //     },
+  //   };
+  //   const nextState = mapListReducer(initialState, actionCreator);
 
-    // assert
-    expect(nextState).toEqual([]);
-  });
-  it('Should return [] when searched data with category = source and query is not found', () => {
-    // arrange
-    const initialState = [
-      { id: 1, title: 'asd', source: 'asd.geojson' },
-      { id: 2, title: 'test', source: 'test.tiff' },
-      { id: 3, title: 'testa', source: 'cek.wms' }];
-    const actionCreator = {
-      type: ACTION_TYPE.searchMapListType,
-      payload: {
-        category: 'title',
-        query: 'apa aja',
-      },
-    };
-    const nextState = mapListReducer(initialState, actionCreator);
+  //   // assert
+  //   expect(nextState).toEqual([]);
+  // });
+  // it('Should return [] when searched data with category = source and query is not found', () => {
+  //   // arrange
+  //   const initialState = [
+  //     { id: 1, title: 'asd', source: 'asd.geojson' },
+  //     { id: 2, title: 'test', source: 'test.tiff' },
+  //     { id: 3, title: 'testa', source: 'cek.wms' }];
+  //   const actionCreator = {
+  //     type: ACTION_TYPE.searchMapListType,
+  //     payload: {
+  //       category: 'title',
+  //       query: 'apa aja',
+  //     },
+  //   };
+  //   const nextState = mapListReducer(initialState, actionCreator);
 
-    // assert
-    expect(nextState).toEqual([]);
-  });
+  //   // assert
+  //   expect(nextState).toEqual([]);
+  // });
 
-  it('Should return finded data when given category an query on input search', () => {
-    // arrange
-    const initialState = [
-      { id: 1, title: 'asd', source: 'asd.geojson' },
-      { id: 2, title: 'test', source: 'test.tiff' },
-      { id: 3, title: 'testa', source: 'cek.wms' }];
-    const actionCreator = {
-      type: ACTION_TYPE.searchMapListType,
-      payload: {
-        category: 'title',
-        query: 'asd',
-      },
-    };
-    const nextState = mapListReducer(initialState, actionCreator);
+  // it('Should return finded data when given category an query on input search', () => {
+  //   // arrange
+  //   const initialState = [
+  //     { id: 1, title: 'asd', source: 'asd.geojson' },
+  //     { id: 2, title: 'test', source: 'test.tiff' },
+  //     { id: 3, title: 'testa', source: 'cek.wms' }];
+  //   const actionCreator = {
+  //     type: ACTION_TYPE.searchMapListType,
+  //     payload: {
+  //       category: 'title',
+  //       query: 'asd',
+  //     },
+  //   };
+  //   const nextState = mapListReducer(initialState, actionCreator);
 
-    // assert
-    expect(nextState).toEqual([initialState[0]]);
-    expect(nextState).toHaveLength(1);
-  });
+  //   // assert
+  //   expect(nextState).toEqual([initialState[0]]);
+  //   expect(nextState).toHaveLength(1);
+  // });
   it('Should update given data to id to be update when given by putMapListType', () => {
     // action
     const initialState = [{

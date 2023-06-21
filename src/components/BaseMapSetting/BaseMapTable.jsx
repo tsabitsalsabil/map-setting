@@ -4,7 +4,7 @@ import TableWithPagination from '../TableWithPagination';
 import { asyncGetMaplistActionCreator } from '../../states';
 
 function BaseMapTable() {
-  const { listMap } = useSelector((states) => states);
+  const { listMap, searchedData } = useSelector((states) => states);
   const dispatch = useDispatch();
   const tableColumns = [
     {
@@ -20,10 +20,9 @@ function BaseMapTable() {
   useEffect(() => {
     dispatch(asyncGetMaplistActionCreator());
   }, []);
-
   return (
     <section>
-      <TableWithPagination tableColumns={tableColumns} tableDatas={listMap} headerStyle="bg-[#4893E6] text-white" rowStyle="p-1.5 border-b text-center" />
+      <TableWithPagination tableColumns={tableColumns} tableDatas={searchedData.length ? searchedData : listMap} headerStyle="bg-[#4893E6] text-white" rowStyle="p-1.5 border-b text-center" />
     </section>
   );
 }
