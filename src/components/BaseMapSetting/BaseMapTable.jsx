@@ -20,7 +20,6 @@ function BaseMapTable() {
   useEffect(() => {
     dispatch(asyncGetMaplistActionCreator());
   }, []);
-  console.log({ listMap });
   return (
     <section>
       <TableWithPagination tableColumns={tableColumns} tableDatas={searchedData.length ? searchedData : listMap} headerStyle="bg-[#4893E6] text-white" rowStyle="p-1.5 border-b text-center" />

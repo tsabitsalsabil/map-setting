@@ -32,11 +32,12 @@ export const searchMapListActionCreator = (category, query) => ({
   },
 });
 
-export const addMapListActionCreator = ({ id, map }) => ({
+export const addMapListActionCreator = ({
+  id, name, title, type, file,
+}) => ({
   type: ACTION_TYPE.addMapListType,
   payload: {
-    id,
-    map,
+    id, name, title, type, file,
   },
 });
 
@@ -68,15 +69,17 @@ export const asyncDeleteMapListActionCreator = (id) => async (dispatch) => {
 
 export const asyncAddMapListActionCreator = (
   {
-    map, uploadedFile, fileType,
+    name, title, uploadedFile, fileType,
   },
 ) => async (dispatch) => {
   dispatch(toggleLoader(true, 'Uploading...'));
   const id = await api.addMapListData({
-    map, uploadedFile, fileType,
+    name, title, uploadedFile, fileType,
   });
   dispatch(toggleLoader(false));
-  dispatch(addMapListActionCreator({ id, map }));
+  dispatch(addMapListActionCreator({
+    id, name, title, type: fileType, file: uploadedFile,
+  }));
   dispatch(modalAddSuccessToggleActionCreator(true));
 };
 

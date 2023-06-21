@@ -5,11 +5,11 @@ function AddMapContent({
   title, sourceComponent, subNavOptions, setOptions, onAddHandler,
 }) {
   return (
-    <article className="w-[30%] mx-auto mt-10">
+    <article className="xl:w-[30%] lg:w-[40%] mx-auto mt-10">
       <section className="mb-8">
         <NavigationLink options={subNavOptions} setOptions={setOptions} />
       </section>
-      <section className="mx-auto bg-white p-10">
+      <section className="mx-auto bg-white p-10 rounded-xl">
         <h1 className="font-bold text-xl">{title}</h1>
         {sourceComponent}
         <div className="flex justify-end mt-6 gap-3">

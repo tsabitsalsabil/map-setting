@@ -42,11 +42,13 @@ const api = {
     return response.success;
   },
 
-  async addMapListData({ map, uploadedFile, fileType }) {
+  async addMapListData({
+    name, title, uploadedFile, fileType,
+  }) {
     const formData = new FormData();
     formData.append('file', uploadedFile[0]);
-    formData.append('name', map);
-    formData.append('title', map);
+    formData.append('name', name);
+    formData.append('title', title);
     formData.append('type', fileType);
 
     const response = await this.fetchRequest(`${process.env.BE_PORT}/api/basemaps`, {

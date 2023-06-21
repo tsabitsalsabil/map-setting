@@ -16,7 +16,7 @@ import PaginationButton from '../PaginationButton';
 describe('Pagination Button Component', () => {
   it('Should render correctly', () => {
     // arrange
-    render(<PaginationButton activePage={0} gotoPageFunction={() => {}} nextPage={() => {}} previousPage={() => {}} canNextPage={false} canPreviousPage={false} />);
+    render(<PaginationButton activePage={0} gotoPageFunction={() => {}} nextPage={() => {}} previousPage={() => {}} canNextPage={false} canPreviousPage={false} dataLength={50} />);
     const paginationButton = screen.getByRole('button', {
       name: '1',
     });
@@ -24,7 +24,7 @@ describe('Pagination Button Component', () => {
     allButtonFromPaginationComponent.forEach((button) => {
       expect(button).toBeInTheDocument();
     });
-    expect(allButtonFromPaginationComponent).toHaveLength(9);
+    expect(allButtonFromPaginationComponent).toHaveLength(7);
     expect(paginationButton).toBeInTheDocument();
 
     // action
@@ -32,7 +32,7 @@ describe('Pagination Button Component', () => {
 
   it('Should change to some/other page when page number is clicked', () => {
     const onClickNumberHandler = jest.fn();
-    render(<PaginationButton activePage={0} gotoPageFunction={onClickNumberHandler} nextPage={() => {}} previousPage={() => {}} canNextPage={false} canPreviousPage={false} />);
+    render(<PaginationButton activePage={0} gotoPageFunction={onClickNumberHandler} nextPage={() => {}} previousPage={() => {}} canNextPage={false} canPreviousPage={false} dataLength={10} />);
 
     const button = screen.getByRole('button', {
       name: '1',

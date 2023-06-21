@@ -56,6 +56,7 @@ function BaseMapSettingPage() {
   const [searchCategory, setSearchCategory] = useState('all');
   const [options, setOptions] = useState(subNavOptions);
   const [fileName, onChangeFileName, setFileName] = useInput();
+  const [titleInput, onChangeTitleInput, setTitleInput] = useInput();
   const [selectTypeValue, onChangeSelectTypeValue, setSelectTypeValue] = useInput();
   const [uploadedFile, setUploadedFile] = useState();
   const [fileSource, onChangeFileSourceHandler, setFileSource] = useInput();
@@ -75,7 +76,6 @@ function BaseMapSettingPage() {
         dispatch(asyncSearchMap(searchCategory, searchKeywordValue));
       }
     }, 1000);
-
     return () => clearInterval(getData);
   }, [searchKeywordValue]);
 
@@ -88,6 +88,7 @@ function BaseMapSettingPage() {
     setSelectTypeValue('');
     setUploadedFile('');
     setFileSource('');
+    setTitleInput('');
   };
   const closePopupNotification = () => {
     dispatch(toggleErrorActionCreator(false));
@@ -100,11 +101,12 @@ function BaseMapSettingPage() {
     //   source: fileSource || (`${fileName}.${getFileExtension(uploadedFile[0].name)}`),
     //   no: +new Date(),
     // }));
-    console.log({
-      fileName, uploadedFile, selectTypeValue, fileSource,
-    });
     dispatch(asyncAddMapListActionCreator({
-      map: fileName, uploadedFile, fileType: selectTypeValue, source: fileSource,
+      name: fileName,
+      title: titleInput,
+      uploadedFile,
+      fileType: selectTypeValue,
+      source: fileSource,
     }));
     clearAllDataInput();
   };
@@ -158,6 +160,8 @@ function BaseMapSettingPage() {
                       onChangeSelectFileTypeValue={onChangeSelectTypeValue}
                       uploadedFile={uploadedFile}
                       onChangeUploadedFile={onChangeUploadedFileHandler}
+                      titleInput={titleInput}
+                      onChangeTitleInput={onChangeTitleInput}
                     />
                   ) : (
                     <OnlineSource
