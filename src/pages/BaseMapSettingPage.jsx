@@ -27,15 +27,15 @@ const subNavOptions = [
   },
 ];
 const selectTypeOptions = [
+  { value: 'GeoTIFF', label: 'Geotiff, tiff, tif)' },
   { value: 'GeoJSON', label: 'GeoJSON(.geojson)' },
-  { value: 'KML', label: 'KML (.kml)' },
-  { value: 'KMZ', label: 'KMZ (.kmz)' },
-  { value: 'CSV', label: '(.csv)' },
-  { value: 'CZML', label: '(.czml)' },
-  { value: 'GeoTIFF', label: 'GeoTiff(.geotiff, .tif, .tiff)' },
-  { value: 'DTED', label: 'DTED(.dted)' },
-  { value: 'NITF', label: 'Nitf(.nitf)' },
-  { value: 'ESRI Shapefile', label: 'Shapefile ' },
+  { value: 'KML, KMZ', label: 'KML or KMZ(.kml, .kmz)' },
+  { value: 'CSV', label: 'CSV (.csv)' },
+  { value: 'CZML', label: 'CZML (.czml)' },
+  { value: 'GPX', label: 'GPX (.gpx)' },
+  { value: 'JSON', label: 'Terria Catalog (.json, .json5)' },
+  { value: 'XML', label: 'GeoRIS (.xml) ' },
+  { value: 'GLB', label: 'gITF(.glb)' },
 ];
 
 const onlineSourceOptions = [
@@ -46,6 +46,66 @@ const onlineSourceOptions = [
   {
     value: 'WFS',
     label: 'Web Feature Service (WFS)',
+  },
+  {
+    value: 'Esri ArcGIS server',
+    label: 'Esri ArcGIS server',
+  },
+  {
+    value: 'Esri ArcGIS Map Server (Single Layer)',
+    label: 'Esri ArcGIS Map Server (Single Layer)',
+  },
+  {
+    value: '3D Tiles',
+    label: '3D Tiles',
+  },
+  {
+    value: 'Open Street Map Server',
+    label: 'Open Street Map Server',
+  },
+  {
+    value: 'GeoJSON',
+    label: 'GeoJSON',
+  },
+  {
+    value: 'KML, KMZ',
+    label: 'KML or KMZ',
+  },
+  {
+    value: 'CSV',
+    label: 'CSV',
+  },
+  {
+    value: 'WMTS',
+    label: 'Web Map Tile Service (WMTS) Serer',
+  },
+  {
+    value: 'Carto V1',
+    label: 'Carto V1',
+  },
+  {
+    value: 'CZML',
+    label: 'CZML',
+  },
+  {
+    value: 'geoRSS',
+    label: 'geoRSS',
+  },
+  {
+    value: '',
+    label: 'Shapefile',
+  },
+  {
+    value: 'WPS',
+    label: 'Web Processing Service (WPS) Server',
+  },
+  {
+    value: 'GPX',
+    label: 'GPX',
+  },
+  {
+    value: 'SDMX-JSON',
+    label: 'SDMX-JSON',
   },
 ];
 
