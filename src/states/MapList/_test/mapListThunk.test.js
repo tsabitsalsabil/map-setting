@@ -110,8 +110,8 @@ describe('Map List Thunk Test', () => {
       id: dataToAdd.id,
       name: dataToAdd.name,
       title: dataToAdd.title,
-      uploadedFile: dataToAdd.url,
-      fileType: dataToAdd.type,
+      file: dataToAdd.url,
+      type: dataToAdd.type,
     }));
     expect(dispatch).toHaveBeenCalledWith(modalAddSuccessToggleActionCreator(fakeResponseSuccess.success));
     expect(dispatch).toHaveBeenCalledWith(toggleLoader(false));
